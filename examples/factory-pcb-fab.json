@@ -1,0 +1,250 @@
+{
+  "$schema": "https://argo.trade/factory.schema.json",
+  "version": "1.0",
+  "name": "TaiPCB Technology Co., Ltd.",
+  "description": "Advanced multilayer and HDI PCB fabrication for automotive, telecom, and industrial applications.",
+  "vertical": "pcb",
+  "location": {
+    "city": "Taoyuan",
+    "country": "TW",
+    "timezone": "Asia/Taipei",
+    "coordinates": { "lat": 24.9936, "lng": 121.3010 }
+  },
+  "founded_year": 2003,
+  "employees": { "min": 300, "max": 350 },
+  "languages": ["zh", "en", "ja"],
+  "website": "https://taipcb.example.com",
+  "industries_served": [
+    "automotive",
+    "telecommunications",
+    "industrial controls",
+    "medical devices",
+    "aerospace"
+  ],
+
+  "capabilities": {
+    "processes": [
+      "multilayer PCB fabrication",
+      "HDI (High Density Interconnect)",
+      "flex-rigid PCB",
+      "impedance control",
+      "blind/buried vias",
+      "heavy copper (up to 6 oz)",
+      "backplane / thick board"
+    ],
+    "materials": [
+      "FR-4 (Tg 170°C)",
+      "FR-4 high-Tg (Tg 180°C)",
+      "Rogers RO4350B",
+      "Rogers RO3003",
+      "polyimide",
+      "aluminum-backed",
+      "Isola 370HR"
+    ],
+    "finishes": [
+      "ENIG",
+      "HASL (lead-free)",
+      "OSP",
+      "immersion silver",
+      "immersion tin",
+      "hard gold",
+      "soft gold (wire bonding)"
+    ],
+    "secondary_services": [
+      "electrical testing",
+      "controlled impedance verification",
+      "panelization",
+      "stencil fabrication",
+      "UL marking"
+    ],
+    "equipment": [
+      {
+        "name": "Orbotech Nuvogo 800",
+        "type": "laser direct imaging (LDI)",
+        "count": 3,
+        "year_acquired": 2022
+      },
+      {
+        "name": "Schmoll XRC-2",
+        "type": "CNC drill",
+        "count": 8,
+        "specs": {
+          "min_drill_mm": 0.075,
+          "max_spindle_rpm": 200000
+        },
+        "year_acquired": 2021
+      },
+      {
+        "name": "Hakuto AOI System",
+        "type": "automated optical inspection",
+        "count": 4,
+        "year_acquired": 2023
+      },
+      {
+        "name": "Burkle vacuum lamination press",
+        "type": "lamination press",
+        "count": 3,
+        "year_acquired": 2020
+      }
+    ]
+  },
+
+  "certifications": [
+    {
+      "type": "ISO 9001:2015",
+      "body": "SGS",
+      "issued": "2022-04-01",
+      "expires": "2025-03-31"
+    },
+    {
+      "type": "IATF 16949:2016",
+      "body": "TÜV Rheinland",
+      "issued": "2023-01-15",
+      "expires": "2025-12-31"
+    },
+    {
+      "type": "IPC-A-600 Class 3",
+      "body": "IPC"
+    },
+    {
+      "type": "UL Listed",
+      "body": "UL",
+      "id": "E123456",
+      "url": "https://iq.ulprospector.com/info"
+    },
+    {
+      "type": "ISO 14001:2015",
+      "body": "SGS",
+      "issued": "2022-04-01",
+      "expires": "2025-03-31"
+    }
+  ],
+
+  "constraints": {
+    "moq": { "min": 5, "max": 50000, "unit": "panels" },
+    "lead_time": {
+      "min_days": 5,
+      "max_days": 25,
+      "sample_days": 3,
+      "expedite_available": true
+    },
+    "capacity": { "value": 15000, "unit": "panels", "period": "month" },
+    "max_dimensions": { "length": 580, "width": 480, "unit": "mm" },
+    "tolerances": {
+      "standard": "±0.1 mm (outline), ±0.075 mm (drill registration)",
+      "precision": "±0.05 mm drill, ±0.025 mm LDI feature",
+      "by_process": {
+        "drill position": "±0.05 mm",
+        "registration": "±0.075 mm",
+        "outline routing": "±0.1 mm",
+        "impedance": "±10%",
+        "trace width": "±0.02 mm"
+      },
+      "min_feature_size": "2.5 mil trace/space (63 µm)",
+      "min_wall_thickness": "0.4 mm (board thickness)"
+    },
+    "min_order_value": { "amount": 200, "currency": "USD" }
+  },
+
+  "quality": {
+    "testing": [
+      "automated optical inspection (AOI)",
+      "electrical testing (flying probe & fixture)",
+      "impedance testing (CITS)",
+      "cross-section analysis",
+      "ionic contamination testing",
+      "thermal stress testing",
+      "solder float test"
+    ],
+    "qc_process": "AOI after each imaging step, 100% electrical test, impedance coupon verification on every production lot.",
+    "inspection_equipment": [
+      {
+        "name": "Hakuto AOI",
+        "type": "automated optical inspection",
+        "count": 4
+      },
+      {
+        "name": "Takaya APT-9411",
+        "type": "flying probe tester",
+        "count": 2
+      },
+      {
+        "name": "Polar CITS880s",
+        "type": "controlled impedance test system",
+        "count": 1
+      }
+    ],
+    "documentation": [
+      "IPC test report",
+      "impedance test coupon data",
+      "cross-section photos (on request)",
+      "certificate of conformance (CoC)",
+      "UL traceability",
+      "RoHS declaration"
+    ],
+    "defect_rate_ppm": 500,
+    "traceability": "Full lot traceability per panel. UL-recognized traceability system linking raw material lots to finished boards."
+  },
+
+  "engineering": {
+    "file_formats": ["Gerber (RS-274X)", "Gerber X2", "ODB++", "Excellon drill", "DXF", "IPC-2581"],
+    "dfm_review": true,
+    "prototyping": true,
+    "reverse_engineering": false,
+    "cad_cam_software": ["CAM350", "Genesis 2000", "InCAM"],
+    "codesign": false
+  },
+
+  "shipping": {
+    "incoterms": ["EXW", "FOB Taoyuan", "CIF", "DDP"],
+    "methods": ["air freight", "express courier (DHL, FedEx)", "sea freight"],
+    "markets_served": ["US", "JP", "DE", "CN", "KR", "GB", "SE"],
+    "packaging": ["vacuum sealed", "ESD bags", "moisture barrier bags", "desiccant packs"]
+  },
+
+  "payment": {
+    "terms": ["50% deposit, 50% before shipment", "Net 30 (qualified accounts)", "credit card (orders under $5000)"],
+    "methods": ["T/T (wire transfer)", "credit card", "PayPal"],
+    "currencies": ["USD", "TWD", "JPY", "EUR"]
+  },
+
+  "compliance": {
+    "ip_protection": "NDA standard for all new customers. Gerber files stored on access-controlled servers with 90-day auto-purge option.",
+    "environmental": ["RoHS compliant", "REACH compliant", "ISO 14001", "halogen-free capable"],
+    "social": ["SA8000"]
+  },
+
+  "endpoints": {
+    "rfq": "https://taipcb.argo.trade/rfq",
+    "api": "https://taipcb.argo.trade/api/v1",
+    "mcp": "https://taipcb.argo.trade/.well-known/mcp",
+    "email": "rfq@taipcb.example.com",
+    "phone": "+886-3-1234-5678"
+  },
+
+  "media": {
+    "logo": "https://taipcb.example.com/logo.png",
+    "gallery": [
+      "https://taipcb.example.com/gallery/cleanroom.jpg",
+      "https://taipcb.example.com/gallery/ldi-line.jpg",
+      "https://taipcb.example.com/gallery/inspection-lab.jpg"
+    ]
+  },
+
+  "business_hours": {
+    "timezone": "Asia/Taipei",
+    "hours": "Mon-Fri 08:30-17:30",
+    "response_time": "RFQ response within 4 business hours"
+  },
+
+  "custom": {
+    "max_layers": 32,
+    "min_trace_mil": 2.5,
+    "min_space_mil": 2.5,
+    "min_via_diameter_mm": 0.1,
+    "max_aspect_ratio": 12,
+    "max_copper_weight_oz": 6,
+    "min_board_thickness_mm": 0.4,
+    "max_board_thickness_mm": 6.0
+  }
+}

@@ -1,0 +1,289 @@
+{
+  "$schema": "https://argo.trade/factory.schema.json",
+  "version": "1.0",
+  "name": "Precision Works Manufacturing Co.",
+  "legal_name": "Precision Works Manufacturing (Shenzhen) Co., Ltd.",
+  "description": "High-precision CNC machining facility specializing in aerospace and medical-grade components.",
+  "vertical": "machining",
+  "location": {
+    "city": "Shenzhen",
+    "region": "Guangdong",
+    "country": "CN",
+    "postal_code": "518000",
+    "timezone": "Asia/Shanghai",
+    "coordinates": { "lat": 22.5431, "lng": 114.0579 }
+  },
+  "founded_year": 2008,
+  "employees": { "min": 120, "max": 150 },
+  "languages": ["zh", "en"],
+  "website": "https://precisionworks.example.com",
+  "industries_served": [
+    "aerospace",
+    "medical devices",
+    "defense",
+    "semiconductor equipment",
+    "robotics"
+  ],
+
+  "capabilities": {
+    "processes": [
+      "5-axis CNC milling",
+      "CNC turning",
+      "wire EDM",
+      "sinker EDM",
+      "surface grinding",
+      "cylindrical grinding",
+      "jig boring"
+    ],
+    "materials": [
+      "aluminum 6061-T6",
+      "aluminum 7075-T6",
+      "titanium Ti-6Al-4V",
+      "stainless steel 304",
+      "stainless steel 316L",
+      "stainless steel 17-4 PH",
+      "Inconel 718",
+      "PEEK",
+      "Delrin / POM",
+      "brass C360",
+      "copper C101",
+      "tool steel A2",
+      "tool steel D2"
+    ],
+    "finishes": [
+      "anodizing Type II (color)",
+      "anodizing Type III (hard coat)",
+      "passivation (citric & nitric)",
+      "electropolishing",
+      "bead blasting",
+      "powder coating",
+      "nickel plating (electroless)",
+      "chrome plating",
+      "black oxide",
+      "tumble deburring",
+      "vapor polishing (plastics)"
+    ],
+    "secondary_services": [
+      "mechanical assembly",
+      "insert installation (helicoil, PEM)",
+      "heat treatment coordination",
+      "laser engraving / marking",
+      "custom packaging",
+      "kitting"
+    ],
+    "equipment": [
+      {
+        "name": "DMG Mori DMU 50",
+        "type": "5-axis CNC mill",
+        "count": 4,
+        "specs": {
+          "travel_x_mm": 500,
+          "travel_y_mm": 450,
+          "travel_z_mm": 400,
+          "spindle_rpm": 20000,
+          "tool_changer_capacity": 60
+        },
+        "year_acquired": 2021
+      },
+      {
+        "name": "Mazak QTN-200",
+        "type": "CNC lathe",
+        "count": 6,
+        "specs": {
+          "max_turning_diameter_mm": 300,
+          "max_turning_length_mm": 500,
+          "spindle_rpm": 5000,
+          "live_tooling": true
+        },
+        "year_acquired": 2019
+      },
+      {
+        "name": "Sodick ALC600G",
+        "type": "wire EDM",
+        "count": 2,
+        "specs": {
+          "travel_x_mm": 600,
+          "travel_y_mm": 400,
+          "travel_z_mm": 350,
+          "min_wire_diameter_mm": 0.05
+        },
+        "year_acquired": 2022
+      },
+      {
+        "name": "Okamoto ACC-6-18DX",
+        "type": "surface grinder",
+        "count": 2,
+        "specs": {
+          "table_size_mm": "150x450"
+        },
+        "year_acquired": 2020
+      }
+    ]
+  },
+
+  "certifications": [
+    {
+      "type": "ISO 9001:2015",
+      "body": "TÜV SÜD",
+      "id": "12-100-28456",
+      "issued": "2023-06-15",
+      "expires": "2026-06-14"
+    },
+    {
+      "type": "AS9100D",
+      "body": "BSI",
+      "id": "FM 12345",
+      "issued": "2023-09-01",
+      "expires": "2026-08-31"
+    },
+    {
+      "type": "ISO 13485:2016",
+      "body": "TÜV SÜD",
+      "id": "12-100-29001",
+      "issued": "2024-01-10",
+      "expires": "2027-01-09"
+    },
+    {
+      "type": "ITAR Registered",
+      "body": "U.S. DDTC",
+      "id": "M30456"
+    }
+  ],
+
+  "constraints": {
+    "moq": { "min": 1, "max": 10000, "unit": "pieces" },
+    "lead_time": {
+      "min_days": 10,
+      "max_days": 35,
+      "sample_days": 5,
+      "expedite_available": true
+    },
+    "capacity": { "value": 25000, "unit": "pieces", "period": "month" },
+    "max_dimensions": { "length": 500, "width": 450, "height": 400, "unit": "mm" },
+    "max_weight": { "value": 50, "unit": "kg" },
+    "tolerances": {
+      "standard": "±0.025 mm (ISO 2768-m)",
+      "precision": "±0.002 mm",
+      "by_process": {
+        "5-axis CNC milling": "±0.005 mm",
+        "CNC turning": "±0.005 mm",
+        "wire EDM": "±0.003 mm",
+        "surface grinding": "±0.002 mm",
+        "jig boring": "±0.002 mm"
+      },
+      "surface_finish": {
+        "standard_ra_um": 1.6,
+        "best_ra_um": 0.2
+      },
+      "positional": "±0.01 mm (true position)",
+      "flatness": "0.005 mm over 100 mm",
+      "roundness": "0.003 mm",
+      "min_feature_size": "0.3 mm internal radius",
+      "min_wall_thickness": "0.5 mm (aluminum), 0.8 mm (steel)"
+    },
+    "min_order_value": { "amount": 500, "currency": "USD" }
+  },
+
+  "quality": {
+    "testing": [
+      "CMM inspection",
+      "first article inspection (FAI / AS9102)",
+      "surface roughness measurement",
+      "hardness testing (Rockwell, Vickers)",
+      "material composition verification (XRF)",
+      "thread gauging (go/no-go)"
+    ],
+    "qc_process": "100% first article inspection, SPC on production runs, final CMM report included with every shipment. In-process inspection at critical operations.",
+    "inspection_equipment": [
+      {
+        "name": "Zeiss Contura",
+        "type": "CMM",
+        "count": 2,
+        "specs": {
+          "accuracy_um": 1.8,
+          "measuring_range_mm": "700x1000x600"
+        }
+      },
+      {
+        "name": "Mitutoyo SJ-410",
+        "type": "surface roughness tester",
+        "count": 3
+      },
+      {
+        "name": "Keyence IM-8000",
+        "type": "instant measurement system",
+        "count": 1
+      },
+      {
+        "name": "Olympus Vanta XRF",
+        "type": "material analyzer",
+        "count": 1
+      }
+    ],
+    "documentation": [
+      "FAI / AS9102",
+      "PPAP Level 3",
+      "certificate of conformance (CoC)",
+      "mill certs / material certifications",
+      "dimensional inspection report",
+      "surface finish report",
+      "FAIR (First Article Inspection Report)"
+    ],
+    "defect_rate_ppm": 800,
+    "traceability": "Full lot traceability from raw material to finished part. Each part laser-marked with serial number linked to inspection data."
+  },
+
+  "engineering": {
+    "file_formats": ["STEP", "IGES", "DXF", "DWG", "Parasolid", "SolidWorks (.sldprt)", "3MF", "PDF"],
+    "dfm_review": true,
+    "prototyping": true,
+    "reverse_engineering": true,
+    "cad_cam_software": ["Mastercam", "SolidWorks", "AutoCAD"],
+    "codesign": false
+  },
+
+  "shipping": {
+    "incoterms": ["EXW", "FOB Shenzhen", "CIF", "DDP"],
+    "methods": ["air freight", "sea freight (FCL/LCL)", "express courier (DHL, FedEx, UPS)"],
+    "markets_served": ["US", "DE", "JP", "GB", "CA", "AU", "SG", "KR"],
+    "packaging": ["vacuum sealed", "foam-cushioned", "custom crating", "VCI anti-corrosion wrap", "individual part bags"],
+    "free_port": "Yantian Port, Shenzhen"
+  },
+
+  "payment": {
+    "terms": ["50% deposit, 50% before shipment", "Net 30 (established accounts)", "100% prepay (first order)"],
+    "methods": ["T/T (wire transfer)", "PayPal", "L/C (letter of credit)"],
+    "currencies": ["USD", "EUR", "CNY"]
+  },
+
+  "compliance": {
+    "ip_protection": "NDA signed before quoting. Isolated production cells for sensitive projects. Access-controlled digital file servers with audit logging.",
+    "export_controls": ["ITAR", "EAR"],
+    "environmental": ["RoHS compliant", "REACH compliant", "ISO 14001 (in progress)"],
+    "social": ["SA8000 certified"]
+  },
+
+  "endpoints": {
+    "rfq": "https://precisionworks.argo.trade/rfq",
+    "api": "https://precisionworks.argo.trade/api/v1",
+    "mcp": "https://precisionworks.argo.trade/.well-known/mcp",
+    "email": "sales@precisionworks.example.com",
+    "phone": "+86-755-1234-5678"
+  },
+
+  "media": {
+    "logo": "https://precisionworks.example.com/logo.png",
+    "cover": "https://precisionworks.example.com/factory-floor.jpg",
+    "gallery": [
+      "https://precisionworks.example.com/gallery/cnc-floor.jpg",
+      "https://precisionworks.example.com/gallery/quality-lab.jpg",
+      "https://precisionworks.example.com/gallery/5-axis-closeup.jpg"
+    ]
+  },
+
+  "business_hours": {
+    "timezone": "Asia/Shanghai",
+    "hours": "Mon-Fri 08:00-18:00, Sat 08:00-12:00",
+    "response_time": "RFQ response within 24 hours"
+  }
+}

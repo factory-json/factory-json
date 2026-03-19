@@ -1,0 +1,255 @@
+{
+  "$schema": "https://argo.trade/factory.schema.json",
+  "version": "1.0",
+  "name": "Sunrise Textiles Pvt. Ltd.",
+  "legal_name": "Sunrise Textiles Private Limited",
+  "description": "Vertically integrated knit garment manufacturer specializing in organic cotton basics and activewear.",
+  "vertical": "textiles",
+  "location": {
+    "city": "Tirupur",
+    "region": "Tamil Nadu",
+    "country": "IN",
+    "postal_code": "641604",
+    "timezone": "Asia/Kolkata",
+    "coordinates": { "lat": 11.1085, "lng": 77.3411 }
+  },
+  "founded_year": 1997,
+  "employees": { "min": 500, "max": 600 },
+  "languages": ["ta", "en", "hi"],
+  "website": "https://sunrisetextiles.example.com",
+  "industries_served": [
+    "fashion / apparel",
+    "activewear / sportswear",
+    "corporate uniforms",
+    "private label retail"
+  ],
+
+  "capabilities": {
+    "processes": [
+      "knitting",
+      "dyeing",
+      "cut-and-sew",
+      "embroidery",
+      "screen printing",
+      "sublimation printing",
+      "garment washing"
+    ],
+    "materials": [
+      "organic cotton",
+      "BCI cotton",
+      "cotton-polyester blends",
+      "viscose",
+      "modal",
+      "recycled polyester",
+      "Tencel / lyocell",
+      "bamboo viscose"
+    ],
+    "finishes": [
+      "enzyme wash",
+      "silicone softener",
+      "anti-pilling",
+      "moisture wicking",
+      "wrinkle-free",
+      "UV protection",
+      "anti-microbial"
+    ],
+    "secondary_services": [
+      "pattern making / grading",
+      "labeling and tagging",
+      "hang tags and packaging",
+      "poly bagging",
+      "carton packing",
+      "retail-ready packaging"
+    ],
+    "equipment": [
+      {
+        "name": "Mayer & Cie MC3-II",
+        "type": "circular knitting machine",
+        "count": 24,
+        "specs": {
+          "diameter_inches": 30,
+          "gauge": 24
+        },
+        "year_acquired": 2020
+      },
+      {
+        "name": "Thies iCone",
+        "type": "dyeing machine",
+        "count": 8,
+        "specs": {
+          "capacity_kg": 250,
+          "liquor_ratio": "1:6"
+        },
+        "year_acquired": 2021
+      },
+      {
+        "name": "Brother BAS-326H",
+        "type": "programmable sewing system",
+        "count": 12,
+        "year_acquired": 2022
+      },
+      {
+        "name": "Tajima TMCE",
+        "type": "embroidery machine",
+        "count": 6,
+        "specs": {
+          "heads": 12,
+          "max_area_mm": "360x500"
+        },
+        "year_acquired": 2021
+      }
+    ]
+  },
+
+  "certifications": [
+    {
+      "type": "GOTS",
+      "body": "Control Union",
+      "id": "CU-1012345",
+      "issued": "2025-03-16",
+      "expires": "2027-03-15"
+    },
+    {
+      "type": "OEKO-TEX Standard 100",
+      "body": "Hohenstein",
+      "id": "SH025-123456",
+      "issued": "2024-11-02",
+      "expires": "2026-11-01"
+    },
+    {
+      "type": "GRS (Global Recycled Standard)",
+      "body": "Control Union",
+      "issued": "2025-01-10",
+      "expires": "2027-01-09"
+    },
+    {
+      "type": "ISO 9001:2015",
+      "body": "Bureau Veritas",
+      "issued": "2023-05-01",
+      "expires": "2026-04-30"
+    }
+  ],
+
+  "constraints": {
+    "moq": { "min": 500, "max": 50000, "unit": "pieces" },
+    "lead_time": {
+      "min_days": 21,
+      "max_days": 45,
+      "sample_days": 10,
+      "expedite_available": true
+    },
+    "capacity": { "value": 50000, "unit": "pieces", "period": "month" },
+    "tolerances": {
+      "standard": "±0.5 cm (body measurements per size spec)",
+      "by_process": {
+        "cutting": "±0.3 cm",
+        "sewing (seam placement)": "±0.2 cm",
+        "print placement": "±0.3 cm",
+        "embroidery placement": "±0.2 cm"
+      },
+      "min_feature_size": "5 mm embroidery detail"
+    },
+    "min_order_value": { "amount": 2000, "currency": "USD" }
+  },
+
+  "quality": {
+    "testing": [
+      "fabric GSM testing",
+      "color fastness (wash, rub, light — ISO 105 series)",
+      "shrinkage testing (AATCC 135)",
+      "pilling resistance (ISO 12945)",
+      "dimensional stability",
+      "needle detection",
+      "tensile / burst strength"
+    ],
+    "qc_process": "AQL 2.5 final inspection, inline QC at cutting and sewing, pre-shipment lab test report. Dedicated QC team of 15 inspectors.",
+    "inspection_equipment": [
+      {
+        "name": "James Heal Martindale",
+        "type": "abrasion & pilling tester",
+        "count": 2
+      },
+      {
+        "name": "Datacolor 800",
+        "type": "spectrophotometer",
+        "count": 1
+      },
+      {
+        "name": "Hashima HN-30C",
+        "type": "needle detector",
+        "count": 3
+      }
+    ],
+    "documentation": [
+      "AQL inspection report",
+      "lab test report (color fastness, shrinkage, GSM)",
+      "packing list",
+      "certificate of conformance (CoC)",
+      "GOTS transaction certificate",
+      "OEKO-TEX test report"
+    ],
+    "defect_rate_ppm": 2500,
+    "traceability": "GOTS-compliant chain of custody from fiber to finished garment. Each lot linked to organic cotton source and dyeing batch records."
+  },
+
+  "engineering": {
+    "file_formats": ["AI (Adobe Illustrator)", "PDF", "DXF", "CDR (CorelDRAW)", "tech pack (Excel/PDF)"],
+    "dfm_review": true,
+    "prototyping": true,
+    "reverse_engineering": true,
+    "cad_cam_software": ["Gerber AccuMark", "Optitex", "Adobe Illustrator"],
+    "codesign": true
+  },
+
+  "shipping": {
+    "incoterms": ["FOB Chennai", "CIF", "DDP", "EXW"],
+    "methods": ["sea freight (FCL/LCL)", "air freight", "express courier (DHL, FedEx)"],
+    "markets_served": ["US", "GB", "DE", "FR", "AU", "CA", "NL", "AE"],
+    "packaging": ["poly bagged (individual)", "carton packed", "retail-ready (hang tags, barcodes)", "branded shipping cartons"],
+    "free_port": "Chennai Port / ICD Tirupur"
+  },
+
+  "payment": {
+    "terms": ["30% deposit, 70% against BL copy", "L/C at sight", "Net 30 (established accounts)"],
+    "methods": ["T/T (wire transfer)", "L/C (letter of credit)", "PayPal (samples only)"],
+    "currencies": ["USD", "EUR", "GBP", "INR"]
+  },
+
+  "compliance": {
+    "ip_protection": "NDA signed before sampling. Design files stored on secured servers. No factory visit photography without written approval.",
+    "environmental": ["GOTS certified", "GRS certified", "zero liquid discharge (ZLD) dyeing", "solar-powered knitting unit"],
+    "social": ["BSCI (amfori)", "SEDEX / SMETA 4-pillar", "SA8000 (in progress)"]
+  },
+
+  "endpoints": {
+    "rfq": "https://sunrise.argo.trade/rfq",
+    "mcp": "https://sunrise.argo.trade/.well-known/mcp",
+    "email": "orders@sunrisetextiles.example.com",
+    "phone": "+91-421-123-4567"
+  },
+
+  "media": {
+    "logo": "https://sunrisetextiles.example.com/logo.png",
+    "cover": "https://sunrisetextiles.example.com/factory-exterior.jpg",
+    "gallery": [
+      "https://sunrisetextiles.example.com/gallery/knitting-floor.jpg",
+      "https://sunrisetextiles.example.com/gallery/dyeing-unit.jpg",
+      "https://sunrisetextiles.example.com/gallery/cut-sew-line.jpg",
+      "https://sunrisetextiles.example.com/gallery/qc-lab.jpg"
+    ]
+  },
+
+  "business_hours": {
+    "timezone": "Asia/Kolkata",
+    "hours": "Mon-Sat 09:00-18:00",
+    "response_time": "RFQ response within 48 hours, sample approval within 10 working days"
+  },
+
+  "custom": {
+    "fabric_types": ["jersey", "interlock", "rib", "pique", "french terry", "fleece"],
+    "gsm_range": { "min": 120, "max": 400 },
+    "garment_types": ["t-shirts", "polo shirts", "hoodies", "joggers", "leggings", "tank tops"],
+    "size_range": "XS-5XL",
+    "color_matching": "Pantone TPX/TCX"
+  }
+}
