@@ -1,4 +1,4 @@
-# factory.json Specification v1.0
+# factory.json Specification v1.1
 
 ## Abstract
 
@@ -6,7 +6,7 @@ This document defines **factory.json**, a machine-readable format for describing
 
 ## Status
 
-This is version **1.0** of the factory.json specification, published by Argo Trade.
+This is version **1.1** of the factory.json specification, published by Factory Schema.
 
 ## Table of Contents
 
@@ -18,6 +18,7 @@ This is version **1.0** of the factory.json specification, published by Argo Tra
 - [6. Versioning Policy](#6-versioning-policy)
 - [7. Security Considerations](#7-security-considerations)
 - [8. Examples](#8-examples)
+- [9. A2A Interoperability](#9-a2a-interoperability)
 
 ---
 
@@ -62,7 +63,7 @@ A factory.json file MAY also be hosted at other paths (e.g., `/factory.json`, `/
 A factory.json file is a JSON object validated against the JSON Schema (Draft 2020-12) located at:
 
 ```
-https://argo.trade/factory.schema.json
+https://factoryschema.org/factory.schema.json
 ```
 
 ### 3.1 Required Fields
@@ -71,7 +72,7 @@ A valid factory.json file MUST include the following fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `$schema` | `string` | MUST be `"https://argo.trade/factory.schema.json"` |
+| `$schema` | `string` | MUST be `"https://factoryschema.org/factory.schema.json"` |
 | `name` | `string` | Trade name of the factory (MUST be non-empty) |
 | `location` | `string` or `object` | Factory location |
 | `capabilities` | `string[]` or `object` | What the factory can produce |
@@ -91,12 +92,12 @@ The `custom` field provides an escape hatch for vertical-specific data that does
 #### `$schema` (REQUIRED)
 
 - **Type**: `string` (const)
-- **Value**: MUST be `"https://argo.trade/factory.schema.json"`
+- **Value**: MUST be `"https://factoryschema.org/factory.schema.json"`
 - **Description**: Identifies the document as a factory.json file and pins it to this schema version.
 
 #### `version`
 
-- **Type**: `string` (const `"1.0"`)
+- **Type**: `string` (enum: `"1.0"`, `"1.1"`)
 - **Description**: Schema version. SHOULD be included for forward compatibility.
 
 #### `name` (REQUIRED)
@@ -316,6 +317,7 @@ Each certification object:
 | `rfq` | `string` (URI) | RFQ submission endpoint. |
 | `api` | `string` (URI) | REST API base URL. |
 | `mcp` | `string` (URI) | MCP (Model Context Protocol) server URI. |
+| `a2a` | `string` (URI) | A2A (Agent-to-Agent) protocol endpoint URI, typically pointing to `/.well-known/agent-card.json`. |
 | `website` | `string` (URI) | Factory website. |
 | `email` | `string` | Contact email address. |
 | `phone` | `string` | Contact phone number. |
@@ -357,7 +359,7 @@ Each certification object:
 
 A factory.json file MUST be served with the media type `application/json`.
 
-There is no registered media type specific to factory.json. Consumers SHOULD identify factory.json files by the presence of the `$schema` field with the value `"https://argo.trade/factory.schema.json"`.
+There is no registered media type specific to factory.json. Consumers SHOULD identify factory.json files by the presence of the `$schema` field with the value `"https://factoryschema.org/factory.schema.json"`.
 
 ## 6. Versioning Policy
 
@@ -402,7 +404,7 @@ Publishers SHOULD set appropriate CORS headers (`Access-Control-Allow-Origin`) i
 
 ```json
 {
-  "$schema": "https://argo.trade/factory.schema.json",
+  "$schema": "https://factoryschema.org/factory.schema.json",
   "name": "My Factory",
   "location": "Shenzhen, CN",
   "capabilities": ["CNC milling", "CNC turning"]
@@ -416,6 +418,80 @@ See the [examples/](examples/) directory for complete, real-world profiles:
 - [factory-machine-shop.json](examples/factory-machine-shop.json) — CNC machine shop (Shenzhen, China)
 - [factory-pcb-fab.json](examples/factory-pcb-fab.json) — PCB fabrication facility (Taoyuan, Taiwan)
 - [factory-textile.json](examples/factory-textile.json) — Textile/garment manufacturer (Tirupur, India)
+- [agent-card.json](examples/agent-card.json) — A2A Agent Card corresponding to the machine shop example
+
+---
+
+## 9. A2A Interoperability
+
+### 9.1 Overview
+
+The [A2A (Agent-to-Agent) protocol](https://github.com/google/A2A) defines a standard for AI agents to discover each other's capabilities and exchange tasks. By bridging factory.json with A2A, manufacturing facilities can transition from passive, crawlable profiles to active agent nodes — discoverable and reachable by AI agents for automated RFQ intake, quoting, capability queries, and supply chain orchestration.
+
+A2A interoperability is OPTIONAL. Factories MAY adopt it incrementally: first publish a factory.json (static profile), then add an A2A Agent Card (active agent endpoint) when ready.
+
+### 9.2 Discovery Bridge
+
+The recommended pattern uses two complementary files:
+
+1. **`factory.json`** — Static profile describing the factory's capabilities, certifications, and constraints. Hosted at `/.well-known/factory.json`.
+2. **`agent-card.json`** — A2A Agent Card describing the factory's AI agent capabilities and supported tasks. Hosted at `/.well-known/agent-card.json`.
+
+The `endpoints.a2a` field in factory.json SHOULD point to the Agent Card URI:
+
+```json
+{
+  "endpoints": {
+    "rfq": "https://factory.example.com/rfq",
+    "mcp": "https://factory.example.com/.well-known/mcp",
+    "a2a": "https://factory.example.com/.well-known/agent-card.json"
+  }
+}
+```
+
+Conversely, the Agent Card SHOULD include a `metadata.factory_json` field pointing back to the factory.json file, enabling bidirectional discovery.
+
+### 9.3 Semantic Mapping
+
+The following table maps factory.json fields to their A2A Agent Card equivalents:
+
+| factory.json Field | A2A Concept | Mapping |
+|---|---|---|
+| `capabilities.processes` | `AgentSkill.name` | Each manufacturing process MAY be represented as a skill on the Agent Card. |
+| `certifications` | `AgentSkill.metadata.verifications` | Certifications SHOULD be included as verification metadata on relevant skills. |
+| `constraints.lead_time` | `AgentSkill.metadata.performance_metrics` | Lead time, capacity, and other constraints SHOULD be expressed as performance metrics. |
+| `engineering.file_formats` | Supported input artifact MIME types | File formats accepted by the factory map to the MIME types the agent can accept as input artifacts. |
+| `name`, `description`, `location` | Agent Card identity fields | Factory identity fields map directly to the Agent Card's `name`, `description`, and `metadata.location`. |
+| `endpoints.rfq` | Skill endpoint for RFQ intake | The RFQ endpoint becomes the backing implementation for an RFQ intake skill. |
+
+### 9.4 Industrial Task Extension
+
+When using A2A tasks for RFQ workflows, the following conventions are RECOMMENDED:
+
+**Input Artifacts**: STEP files (`model/step`), PDF drawings (`application/pdf`), DXF files (`image/vnd.dxf`).
+
+**Status Mapping**:
+
+| A2A Task State | Manufacturing Meaning |
+|---|---|
+| `submitted` | RFQ Received |
+| `working` | Quoting in Progress |
+| `input-required` | Clarification Needed (e.g. missing tolerances, ambiguous drawing) |
+| `completed` | Quote Issued |
+| `failed` | Unable to Quote (e.g. capability mismatch, export restriction) |
+
+**Output Artifacts**: Quote PDF (`application/pdf`), structured quote JSON (`application/json`).
+
+### 9.5 Trust & Verification
+
+Agent Cards MAY be signed using JSON Web Signature (JWS) to establish authenticity. This is OPTIONAL and not required for basic interoperability.
+
+Publishers who sign their Agent Cards SHOULD:
+
+- Use a key associated with the factory's domain (e.g. via a `/.well-known/jwks.json` endpoint).
+- Include the `factory_json` URL in the signed payload so consumers can verify the binding between the Agent Card and the factory profile.
+
+Consumers SHOULD NOT treat Agent Card claims as verified without additional validation, consistent with the security guidance in [Section 7.3](#73-data-accuracy).
 
 ---
 

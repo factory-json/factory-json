@@ -1,0 +1,90 @@
+{
+  "name": "Precision Works Manufacturing Agent",
+  "description": "AI agent for Precision Works Manufacturing Co. — handles RFQ intake, quoting, and capability queries for aerospace-grade CNC machining.",
+  "url": "https://precisionworks.example.com/.well-known/agent-card.json",
+  "provider": {
+    "organization": "Precision Works Manufacturing (Shenzhen) Co., Ltd.",
+    "url": "https://precisionworks.example.com"
+  },
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "authentication": {
+    "schemes": ["none"]
+  },
+  "defaultInputModes": ["application/json"],
+  "defaultOutputModes": ["application/json"],
+  "skills": [
+    {
+      "id": "rfq-intake",
+      "name": "RFQ Intake",
+      "description": "Submit a Request for Quote with part drawings, quantities, and requirements. Accepts STEP, PDF, and DXF files.",
+      "tags": ["rfq", "quoting", "manufacturing"],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"],
+      "metadata": {
+        "verifications": [
+          "ISO 9001:2015 (TÜV SÜD, expires 2026-06-14)",
+          "AS9100D (BSI, expires 2026-08-31)",
+          "ISO 13485:2016 (TÜV SÜD, expires 2027-01-09)",
+          "ITAR Registered (U.S. DDTC)"
+        ],
+        "performance_metrics": {
+          "lead_time_min_days": 10,
+          "lead_time_max_days": 35,
+          "sample_days": 5,
+          "expedite_available": true
+        }
+      }
+    },
+    {
+      "id": "5-axis-cnc-milling",
+      "name": "5-axis CNC milling",
+      "description": "High-precision 5-axis CNC milling for aerospace, medical, and defense components. Tolerances to ±0.005 mm.",
+      "tags": ["cnc", "milling", "5-axis", "machining"],
+      "metadata": {
+        "materials": [
+          "aluminum 6061-T6", "aluminum 7075-T6",
+          "titanium Ti-6Al-4V", "stainless steel 304",
+          "stainless steel 316L", "Inconel 718", "PEEK"
+        ],
+        "tolerance": "±0.005 mm"
+      }
+    },
+    {
+      "id": "cnc-turning",
+      "name": "CNC turning",
+      "description": "CNC turning with live tooling capability. Up to 300 mm diameter, 500 mm length.",
+      "tags": ["cnc", "turning", "lathe", "machining"],
+      "metadata": {
+        "tolerance": "±0.005 mm",
+        "max_diameter_mm": 300,
+        "max_length_mm": 500
+      }
+    },
+    {
+      "id": "wire-edm",
+      "name": "Wire EDM",
+      "description": "Wire electrical discharge machining for complex geometries and hard materials. Tolerances to ±0.003 mm.",
+      "tags": ["edm", "wire-edm", "machining"],
+      "metadata": {
+        "tolerance": "±0.003 mm"
+      }
+    },
+    {
+      "id": "capability-query",
+      "name": "Capability Query",
+      "description": "Query factory capabilities, materials, certifications, lead times, and capacity in real time.",
+      "tags": ["query", "capabilities", "info"],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    }
+  ],
+  "metadata": {
+    "factory_json": "https://precisionworks.example.com/.well-known/factory.json",
+    "vertical": "machining",
+    "location": "Shenzhen, CN"
+  }
+}

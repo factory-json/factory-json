@@ -1,6 +1,6 @@
 {
-  "$schema": "https://argo.trade/factory.schema.json",
-  "version": "1.0",
+  "$schema": "https://factoryschema.org/factory.schema.json",
+  "version": "1.1",
   "name": "Sunrise Textiles Pvt. Ltd.",
   "legal_name": "Sunrise Textiles Private Limited",
   "description": "Vertically integrated knit garment manufacturer specializing in organic cotton basics and activewear.",
@@ -224,6 +224,7 @@
   "endpoints": {
     "rfq": "https://sunrise.argo.trade/rfq",
     "mcp": "https://sunrise.argo.trade/.well-known/mcp",
+    "a2a": "https://sunrisetextiles.example.com/.well-known/agent-card.json",
     "email": "orders@sunrisetextiles.example.com",
     "phone": "+91-421-123-4567"
   },

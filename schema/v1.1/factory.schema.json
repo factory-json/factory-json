@@ -1,0 +1,508 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://factoryschema.org/v1.1/factory.schema.json",
+  "title": "factory.json",
+  "description": "A machine-readable description of a manufacturing facility — capabilities, certifications, constraints, and endpoints.",
+  "type": "object",
+  "required": ["$schema", "name", "location", "capabilities"],
+
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://factoryschema.org/factory.schema.json",
+      "description": "Must reference this schema."
+    },
+    "version": {
+      "type": "string",
+      "enum": ["1.0", "1.1"],
+      "description": "Schema version."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Trade name of the factory."
+    },
+    "legal_name": {
+      "type": "string",
+      "description": "Registered legal entity name."
+    },
+    "description": {
+      "type": "string",
+      "description": "Short free-text description of the factory."
+    },
+    "vertical": {
+      "type": "string",
+      "description": "Primary industry vertical (free-form, e.g. \"machining\", \"pcb\", \"textiles\")."
+    },
+    "location": {
+      "description": "Factory location as a string (\"City, Country\") or a structured object.",
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "object",
+          "required": ["city", "country"],
+          "properties": {
+            "city": { "type": "string", "minLength": 1 },
+            "region": { "type": "string" },
+            "country": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "description": "ISO 3166-1 alpha-2 country code."
+            },
+            "postal_code": { "type": "string" },
+            "timezone": {
+              "type": "string",
+              "description": "IANA timezone (e.g. \"Asia/Shanghai\")."
+            },
+            "coordinates": {
+              "type": "object",
+              "required": ["lat", "lng"],
+              "properties": {
+                "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+                "lng": { "type": "number", "minimum": -180, "maximum": 180 }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "founded_year": {
+      "type": "integer",
+      "minimum": 1800,
+      "description": "Year the factory was established."
+    },
+    "employees": {
+      "type": "object",
+      "properties": {
+        "min": { "type": "integer", "minimum": 1 },
+        "max": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false,
+      "description": "Employee count range."
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]{2}$",
+        "description": "ISO 639-1 language code."
+      },
+      "description": "Languages spoken at the factory."
+    },
+    "website": {
+      "type": "string",
+      "format": "uri",
+      "description": "Factory website URL."
+    },
+    "industries_served": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Industries and market segments the factory serves (e.g. \"aerospace\", \"medical\", \"automotive\", \"consumer electronics\")."
+    },
+
+    "capabilities": {
+      "description": "What the factory can produce. Shorthand: an array of process strings. Full form: an object with processes, materials, finishes, and equipment.",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "Shorthand — list of process names."
+        },
+        {
+          "type": "object",
+          "required": ["processes"],
+          "properties": {
+            "processes": {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 1,
+              "description": "Manufacturing processes offered (free-form strings)."
+            },
+            "materials": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Materials the factory can work with."
+            },
+            "finishes": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Surface finishes and post-processing available."
+            },
+            "secondary_services": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Additional services beyond primary manufacturing (e.g. \"assembly\", \"heat treatment\", \"plating\", \"laser engraving\", \"packaging\")."
+            },
+            "equipment": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": { "type": "string", "minLength": 1 },
+                  "type": { "type": "string" },
+                  "count": { "type": "integer", "minimum": 1 },
+                  "specs": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "description": "Free-form key-value specs for this equipment."
+                  },
+                  "year_acquired": { "type": "integer" }
+                },
+                "additionalProperties": false
+              },
+              "description": "Major equipment on the factory floor."
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": { "type": "string", "minLength": 1, "description": "Certification name (e.g. \"ISO 9001\", \"GOTS\")." },
+          "body": { "type": "string", "description": "Issuing / certifying body." },
+          "id": { "type": "string", "description": "Certificate ID or number." },
+          "issued": { "type": "string", "format": "date", "description": "Date issued (YYYY-MM-DD)." },
+          "expires": { "type": "string", "format": "date", "description": "Expiry date (YYYY-MM-DD)." },
+          "url": { "type": "string", "format": "uri", "description": "Link to certificate or verification page." }
+        },
+        "additionalProperties": false
+      },
+      "description": "Industry certifications and compliance credentials."
+    },
+
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "moq": {
+          "description": "Minimum order quantity. Shorthand: a plain number (units). Full form: an object with min, max, and unit.",
+          "oneOf": [
+            { "type": "number", "minimum": 0 },
+            {
+              "type": "object",
+              "required": ["min", "unit"],
+              "properties": {
+                "min": { "type": "number", "minimum": 0 },
+                "max": { "type": "number", "minimum": 0 },
+                "unit": { "type": "string", "minLength": 1 }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "lead_time": {
+          "type": "object",
+          "required": ["min_days"],
+          "properties": {
+            "min_days": { "type": "integer", "minimum": 0 },
+            "max_days": { "type": "integer", "minimum": 0 },
+            "sample_days": { "type": "integer", "minimum": 0 },
+            "expedite_available": { "type": "boolean", "description": "Whether expedited production is available." }
+          },
+          "additionalProperties": false,
+          "description": "Production lead times in days."
+        },
+        "capacity": {
+          "type": "object",
+          "required": ["value", "unit"],
+          "properties": {
+            "value": { "type": "number", "minimum": 0 },
+            "unit": { "type": "string", "minLength": 1 },
+            "period": { "type": "string", "description": "Time period (e.g. \"month\", \"week\")." }
+          },
+          "additionalProperties": false,
+          "description": "Production capacity."
+        },
+        "max_dimensions": {
+          "type": "object",
+          "properties": {
+            "length": { "type": "number", "minimum": 0 },
+            "width": { "type": "number", "minimum": 0 },
+            "height": { "type": "number", "minimum": 0 },
+            "unit": { "type": "string" }
+          },
+          "additionalProperties": false,
+          "description": "Maximum part or product dimensions."
+        },
+        "max_weight": {
+          "type": "object",
+          "properties": {
+            "value": { "type": "number", "minimum": 0 },
+            "unit": { "type": "string", "description": "Weight unit (e.g. \"kg\", \"lb\")." }
+          },
+          "additionalProperties": false,
+          "description": "Maximum part weight the facility can handle."
+        },
+        "tolerances": {
+          "description": "Tolerance capabilities. Shorthand: a string (e.g. \"±0.005 mm\"). Full form: a structured object.",
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "properties": {
+                "standard": { "type": "string", "description": "Standard tolerance (e.g. \"±0.025 mm\", \"ISO 2768-m\")." },
+                "precision": { "type": "string", "description": "Best achievable tolerance (e.g. \"±0.002 mm\")." },
+                "by_process": {
+                  "type": "object",
+                  "additionalProperties": { "type": "string" },
+                  "description": "Tolerance per process (e.g. {\"CNC milling\": \"±0.01 mm\", \"wire EDM\": \"±0.003 mm\"})."
+                },
+                "surface_finish": {
+                  "type": "object",
+                  "properties": {
+                    "standard_ra_um": { "type": "number", "description": "Standard surface roughness Ra in micrometers." },
+                    "best_ra_um": { "type": "number", "description": "Best achievable surface roughness Ra in micrometers." }
+                  },
+                  "additionalProperties": false,
+                  "description": "Achievable surface roughness (Ra) values."
+                },
+                "positional": { "type": "string", "description": "Positional / true position accuracy." },
+                "flatness": { "type": "string", "description": "Flatness tolerance capability." },
+                "roundness": { "type": "string", "description": "Roundness / cylindricity tolerance." },
+                "min_feature_size": { "type": "string", "description": "Smallest feature the facility can reliably produce." },
+                "min_wall_thickness": { "type": "string", "description": "Minimum wall thickness (e.g. \"0.5 mm\")." }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "min_order_value": {
+          "type": "object",
+          "properties": {
+            "amount": { "type": "number", "minimum": 0 },
+            "currency": { "type": "string" }
+          },
+          "additionalProperties": false,
+          "description": "Minimum order value in currency."
+        }
+      },
+      "additionalProperties": true,
+      "description": "Production constraints and limits. Additional shorthand fields (e.g. lead_time_days, capacity_units_month) are permitted."
+    },
+
+    "quality": {
+      "type": "object",
+      "properties": {
+        "testing": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Testing methods and equipment available."
+        },
+        "qc_process": {
+          "type": "string",
+          "description": "Description of quality control process."
+        },
+        "inspection_equipment": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "type": { "type": "string" },
+              "count": { "type": "integer", "minimum": 1 },
+              "specs": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": false
+          },
+          "description": "Dedicated inspection and measurement equipment."
+        },
+        "documentation": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Documentation provided with shipments (e.g. \"FAI / AS9102\", \"PPAP Level 3\", \"CoC\", \"mill certs\", \"dimensional report\", \"material traceability\")."
+        },
+        "defect_rate_ppm": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Typical defect rate in parts per million (PPM)."
+        },
+        "traceability": {
+          "type": "string",
+          "description": "Material and process traceability capability (e.g. \"full lot traceability from raw material to finished part\")."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Quality assurance capabilities."
+    },
+
+    "engineering": {
+      "type": "object",
+      "properties": {
+        "file_formats": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Accepted file formats (e.g. \"STEP\", \"IGES\", \"DXF\", \"DWG\", \"Gerber\", \"ODB++\", \"3MF\", \"STL\")."
+        },
+        "dfm_review": {
+          "type": "boolean",
+          "description": "Whether the factory provides Design for Manufacturing feedback."
+        },
+        "prototyping": {
+          "type": "boolean",
+          "description": "Whether prototyping / sample runs are offered."
+        },
+        "reverse_engineering": {
+          "type": "boolean",
+          "description": "Whether the factory can reverse-engineer from a physical sample."
+        },
+        "cad_cam_software": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "CAD/CAM software used in-house (e.g. \"Mastercam\", \"SolidWorks\", \"NX\")."
+        },
+        "codesign": {
+          "type": "boolean",
+          "description": "Whether the factory offers co-design or product development services."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Engineering and design support capabilities."
+    },
+
+    "shipping": {
+      "type": "object",
+      "properties": {
+        "incoterms": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Supported Incoterms (e.g. \"EXW\", \"FOB\", \"CIF\", \"DDP\")."
+        },
+        "methods": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Shipping methods available (e.g. \"air freight\", \"sea freight\", \"express courier\")."
+        },
+        "markets_served": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Countries or regions regularly shipped to (ISO alpha-2 codes or region names)."
+        },
+        "packaging": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Packaging capabilities (e.g. \"vacuum sealed\", \"custom crating\", \"ESD bags\", \"retail-ready\")."
+        },
+        "free_port": {
+          "type": "string",
+          "description": "Nearest free trade zone or port."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Shipping, logistics, and export capabilities."
+    },
+
+    "payment": {
+      "type": "object",
+      "properties": {
+        "terms": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Standard payment terms (e.g. \"50% deposit, 50% before shipment\", \"Net 30\", \"LC at sight\")."
+        },
+        "methods": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Accepted payment methods (e.g. \"T/T\", \"PayPal\", \"L/C\", \"credit card\")."
+        },
+        "currencies": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Accepted currencies (ISO 4217 codes, e.g. \"USD\", \"EUR\", \"CNY\")."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Payment terms and options."
+    },
+
+    "compliance": {
+      "type": "object",
+      "properties": {
+        "ip_protection": {
+          "type": "string",
+          "description": "Intellectual property protection measures (e.g. \"NDA on request, isolated production cells, access-controlled file servers\")."
+        },
+        "export_controls": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Export control regimes the factory is compliant with (e.g. \"ITAR\", \"EAR\")."
+        },
+        "environmental": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Environmental and sustainability practices (e.g. \"RoHS compliant\", \"REACH compliant\", \"ISO 14001\", \"solar powered\")."
+        },
+        "social": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Social and labor compliance (e.g. \"SA8000\", \"BSCI\", \"SMETA\", \"Fair Trade\")."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Regulatory, IP, environmental, and social compliance."
+    },
+
+    "endpoints": {
+      "type": "object",
+      "properties": {
+        "rfq": { "type": "string", "format": "uri", "description": "RFQ submission endpoint." },
+        "api": { "type": "string", "format": "uri", "description": "REST API base URL." },
+        "mcp": { "type": "string", "format": "uri", "description": "MCP (Model Context Protocol) server URI." },
+        "a2a": { "type": "string", "format": "uri", "description": "A2A (Agent-to-Agent) protocol endpoint URI, typically pointing to /.well-known/agent-card.json." },
+        "website": { "type": "string", "format": "uri", "description": "Factory website." },
+        "email": { "type": "string", "description": "Contact email address." },
+        "phone": { "type": "string", "description": "Contact phone number." }
+      },
+      "additionalProperties": false,
+      "description": "Machine-readable interaction endpoints."
+    },
+
+    "media": {
+      "type": "object",
+      "properties": {
+        "logo": { "type": "string", "format": "uri" },
+        "cover": { "type": "string", "format": "uri" },
+        "gallery": {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        }
+      },
+      "additionalProperties": false,
+      "description": "Visual media assets."
+    },
+
+    "business_hours": {
+      "type": "object",
+      "properties": {
+        "timezone": { "type": "string", "description": "IANA timezone (e.g. \"Asia/Shanghai\"). Can also be set in location." },
+        "hours": { "type": "string", "description": "Operating hours (e.g. \"Mon-Fri 08:00-18:00, Sat 08:00-12:00\")." },
+        "response_time": { "type": "string", "description": "Typical RFQ response time (e.g. \"within 24 hours\", \"same business day\")." }
+      },
+      "additionalProperties": false,
+      "description": "Business hours and responsiveness."
+    },
+
+    "custom": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Vertical-specific fields that don't fit the standard schema. Use this as an escape hatch for domain-specific data."
+    }
+  },
+
+  "additionalProperties": false
+}

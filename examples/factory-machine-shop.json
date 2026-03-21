@@ -1,6 +1,6 @@
 {
-  "$schema": "https://argo.trade/factory.schema.json",
-  "version": "1.0",
+  "$schema": "https://factoryschema.org/factory.schema.json",
+  "version": "1.1",
   "name": "Precision Works Manufacturing Co.",
   "legal_name": "Precision Works Manufacturing (Shenzhen) Co., Ltd.",
   "description": "High-precision CNC machining facility specializing in aerospace and medical-grade components.",
@@ -267,6 +267,7 @@
     "rfq": "https://precisionworks.argo.trade/rfq",
     "api": "https://precisionworks.argo.trade/api/v1",
     "mcp": "https://precisionworks.argo.trade/.well-known/mcp",
+    "a2a": "https://precisionworks.example.com/.well-known/agent-card.json",
     "email": "sales@precisionworks.example.com",
     "phone": "+86-755-1234-5678"
   },

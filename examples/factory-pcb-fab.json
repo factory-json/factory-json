@@ -1,6 +1,6 @@
 {
-  "$schema": "https://argo.trade/factory.schema.json",
-  "version": "1.0",
+  "$schema": "https://factoryschema.org/factory.schema.json",
+  "version": "1.1",
   "name": "TaiPCB Technology Co., Ltd.",
   "description": "Advanced multilayer and HDI PCB fabrication for automotive, telecom, and industrial applications.",
   "vertical": "pcb",
@@ -218,6 +218,7 @@
     "rfq": "https://taipcb.argo.trade/rfq",
     "api": "https://taipcb.argo.trade/api/v1",
     "mcp": "https://taipcb.argo.trade/.well-known/mcp",
+    "a2a": "https://taipcb.example.com/.well-known/agent-card.json",
     "email": "rfq@taipcb.example.com",
     "phone": "+886-3-1234-5678"
   },

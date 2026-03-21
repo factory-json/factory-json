@@ -3,13 +3,13 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Spec License: CC BY 4.0](https://img.shields.io/badge/Spec-CC%20BY%204.0-lightgrey.svg)](LICENSE)
 
-**factory.json** is an open schema (v1.0) that makes manufacturing facilities machine-readable. A single JSON file describes a factory's capabilities, certifications, production constraints, and interaction endpoints — in a format any AI agent, procurement platform, or search engine can understand.
+**factory.json** is an open schema (v1.1) that makes manufacturing facilities machine-readable. A single JSON file describes a factory's capabilities, certifications, production constraints, and interaction endpoints — in a format any AI agent, procurement platform, or search engine can understand. With v1.1, factory.json adds optional A2A (Agent-to-Agent) protocol interoperability, bridging static profiles to active agent nodes.
 
 ## Minimal Example
 
 ```json
 {
-  "$schema": "https://argo.trade/factory.schema.json",
+  "$schema": "https://factoryschema.org/factory.schema.json",
   "name": "My Factory",
   "location": "Shenzhen, CN",
   "capabilities": ["CNC milling", "CNC turning"]
@@ -22,7 +22,7 @@ Only four fields are required: `$schema`, `name`, `location`, and `capabilities`
 
 1. **Create** a `factory.json` file using the [minimal example](#minimal-example) above
 2. **Extend** it with optional fields from the [specification](SPEC.md#field-reference)
-3. **Validate** against the [JSON Schema](schema/v1.0/factory.schema.json)
+3. **Validate** against the [JSON Schema](schema/v1.1/factory.schema.json)
 4. **Host** it at `/.well-known/factory.json` on your domain ([RFC 8615](https://www.rfc-editor.org/rfc/rfc8615))
 
 ```
@@ -36,7 +36,8 @@ This well-known URI makes your factory discoverable by AI agents and platforms w
 | Document | Description |
 |----------|-------------|
 | [SPEC.md](SPEC.md) | Formal specification with field reference (RFC 2119 language) |
-| [schema/v1.0/factory.schema.json](schema/v1.0/factory.schema.json) | JSON Schema (Draft 2020-12) |
+| [schema/v1.1/factory.schema.json](schema/v1.1/factory.schema.json) | JSON Schema v1.1 (Draft 2020-12) |
+| [schema/v1.0/factory.schema.json](schema/v1.0/factory.schema.json) | JSON Schema v1.0 (frozen) |
 | [examples/](examples/) | Real-world example profiles across manufacturing verticals |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to propose changes |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
@@ -47,6 +48,7 @@ This well-known URI makes your factory discoverable by AI agents and platforms w
 - [CNC Machine Shop](examples/factory-machine-shop.json) — Aerospace-grade precision machining in Shenzhen
 - [PCB Fabricator](examples/factory-pcb-fab.json) — Multilayer and HDI board fabrication in Taoyuan
 - [Textile Factory](examples/factory-textile.json) — Organic cotton knit garments in Tirupur
+- [Agent Card](examples/agent-card.json) — A2A Agent Card for the machine shop example
 
 ## License
 
@@ -55,5 +57,5 @@ This well-known URI makes your factory discoverable by AI agents and platforms w
 
 ## Links
 
-- Schema: `https://argo.trade/factory.schema.json`
-- Website: [argo.trade](https://argo.trade)
+- Schema: `https://factoryschema.org/factory.schema.json`
+- Website: [factoryjson.org](https://factoryjson.org)

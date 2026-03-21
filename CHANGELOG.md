@@ -5,6 +5,23 @@ All notable changes to the factory.json specification will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-03-20
+
+### Added
+
+- **A2A (Agent-to-Agent) protocol interoperability** — New optional `endpoints.a2a` field for linking to an A2A Agent Card (`/.well-known/agent-card.json`)
+- **Section 9: A2A Interoperability** in SPEC.md — Discovery bridge pattern, semantic mapping from factory.json fields to A2A concepts, industrial task extension for RFQs, and trust/verification guidance
+- **Agent Card example** (`examples/agent-card.json`) — Reference A2A Agent Card for the machine shop example, with skills derived from factory capabilities
+- **v1.1 JSON Schema** (`schema/v1.1/factory.schema.json`) — New schema version accepting both `"1.0"` and `"1.1"` version strings
+- **A2A section on website** (`docs/index.html`) — Discovery bridge, semantic mapping table, industrial task extension, and example Agent Card
+
+### Changed
+
+- `$schema` URLs updated from `argo.trade` to `factoryschema.org` across all examples and documentation
+- `version` field in schema updated from `const: "1.0"` to `enum: ["1.0", "1.1"]`
+- All three example profiles updated to v1.1 with `a2a` endpoint
+- Website version badge updated from v1.0 to v1.1
+
 ## [1.0.0] - 2026-03-19
 
 ### Added
