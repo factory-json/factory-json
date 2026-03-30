@@ -5,6 +5,23 @@ All notable changes to the factory.json specification will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-03-30
+
+### Added
+
+- **RFQ intake requirements** — New optional top-level `rfq` field for declaring what a factory requires in RFQ submissions
+  - Shorthand form (URI string) and full object form, following the established schema pattern
+  - Sub-fields: `endpoint`, `required_fields`, `required_files`, `accepted_types`, `min_quantity`, `min_order_value`, `nda_required`, `auto_quote`, `notes`
+  - Enables AI agents to pre-validate RFQs before submission, reducing `input-required` round-trips
+- **Section 4.14: RFQ Requirements** in SPEC.md — Field reference with relationship notes to `endpoints.rfq`, `engineering.file_formats`, and `constraints.moq`
+- **v1.2 JSON Schema** (`schema/v1.2/factory.schema.json`) — New schema version accepting `"1.0"`, `"1.1"`, and `"1.2"` version strings
+- **A2A mapping** for `rfq.required_fields` → `AgentSkill.inputSchema` and `rfq.required_files` → required input artifact types
+
+### Changed
+
+- Machine shop example updated with full-form `rfq` block
+- Agent Card example `rfq-intake` skill updated with `required_fields` and `required_files` metadata
+
 ## [1.1.0] - 2026-03-20
 
 ### Added

@@ -36,7 +36,11 @@
           "lead_time_max_days": 35,
           "sample_days": 5,
           "expedite_available": true
-        }
+        },
+        "required_fields": ["quantity", "material", "delivery_date"],
+        "required_files": ["STEP", "PDF drawing"],
+        "nda_required": true,
+        "auto_quote": false
       }
     },
     {

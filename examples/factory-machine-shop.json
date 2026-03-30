@@ -1,6 +1,6 @@
 {
   "$schema": "https://factoryschema.org/factory.schema.json",
-  "version": "1.1",
+  "version": "1.2",
   "name": "Precision Works Manufacturing Co.",
   "legal_name": "Precision Works Manufacturing (Shenzhen) Co., Ltd.",
   "description": "High-precision CNC machining facility specializing in aerospace and medical-grade components.",
@@ -261,6 +261,16 @@
     "export_controls": ["ITAR", "EAR"],
     "environmental": ["RoHS compliant", "REACH compliant", "ISO 14001 (in progress)"],
     "social": ["SA8000 certified"]
+  },
+
+  "rfq": {
+    "endpoint": "https://precisionworks.argo.trade/rfq",
+    "required_fields": ["quantity", "material", "delivery_date"],
+    "required_files": ["STEP", "PDF drawing"],
+    "accepted_types": ["machined parts", "prototypes", "production runs"],
+    "nda_required": true,
+    "auto_quote": false,
+    "notes": "Include 2D drawing with GD&T callouts. ITAR parts require separate intake — contact sales@precisionworks.example.com."
   },
 
   "endpoints": {

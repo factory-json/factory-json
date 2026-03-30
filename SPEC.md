@@ -1,4 +1,4 @@
-# factory.json Specification v1.1
+# factory.json Specification v1.2
 
 ## Abstract
 
@@ -6,7 +6,7 @@ This document defines **factory.json**, a machine-readable format for describing
 
 ## Status
 
-This is version **1.1** of the factory.json specification, published by Factory Schema.
+This is version **1.2** of the factory.json specification, published by Factory Schema.
 
 ## Table of Contents
 
@@ -97,7 +97,7 @@ The `custom` field provides an escape hatch for vertical-specific data that does
 
 #### `version`
 
-- **Type**: `string` (enum: `"1.0"`, `"1.1"`)
+- **Type**: `string` (enum: `"1.0"`, `"1.1"`, `"1.2"`)
 - **Description**: Schema version. SHOULD be included for forward compatibility.
 
 #### `name` (REQUIRED)
@@ -305,7 +305,41 @@ Each certification object:
 | `environmental` | `string[]` | Environmental and sustainability practices (e.g. `"RoHS compliant"`, `"ISO 14001"`). |
 | `social` | `string[]` | Social and labor compliance (e.g. `"SA8000"`, `"BSCI"`, `"SMETA"`). |
 
-### 4.10 Endpoints
+### 4.10 RFQ Requirements
+
+#### `rfq`
+
+- **Type**: `string` (URI, shorthand) OR `object` (full form)
+- **Description**: RFQ intake requirements — what the factory needs in a Request for Quote submission.
+
+**Shorthand**: A URI string, equivalent to `endpoints.rfq`.
+
+```json
+"rfq": "https://factory.example.com/rfq"
+```
+
+**Object form**: A structured object describing what the factory requires:
+
+| Sub-field | Type | Description |
+|-----------|------|-------------|
+| `endpoint` | `string` (URI) | RFQ submission endpoint. If omitted, consumers SHOULD fall back to `endpoints.rfq`. |
+| `required_fields` | `string[]` | Information fields required in every RFQ (e.g. `"quantity"`, `"material"`, `"target_price"`, `"delivery_date"`). Free-form strings — requirements vary by vertical. |
+| `required_files` | `string[]` | File types that MUST accompany the RFQ (e.g. `"STEP"`, `"PDF drawing"`). Values SHOULD align with `engineering.file_formats`. |
+| `accepted_types` | `string[]` | Part or product types the factory accepts RFQs for (e.g. `"machined parts"`, `"prototypes"`). If omitted, no restriction is implied. |
+| `min_quantity` | `integer` | Minimum quantity to include in an RFQ. Distinct from `constraints.moq` — this is the threshold below which the factory will not review the RFQ at all. |
+| `min_order_value` | `object` | `{ "amount": number, "currency": string }` — Minimum estimated order value for the factory to review an RFQ. Distinct from `constraints.min_order_value`, which is a production constraint. |
+| `nda_required` | `boolean` | Whether a signed NDA is required before reviewing technical files. |
+| `auto_quote` | `boolean` | Whether the factory supports instant or automated quoting for qualifying RFQs. |
+| `notes` | `string` | Free-text instructions or caveats for RFQ submission. |
+
+**Relationship to other fields:**
+
+- `endpoints.rfq` remains valid. `rfq.endpoint` takes precedence if both exist. The `rfq` object is the expanded form of the endpoint.
+- `rfq.required_files` is a subset of `engineering.file_formats`. A factory may *accept* STEP, IGES, DXF, and PDF, but *require* STEP + PDF drawing in every RFQ.
+- `rfq.min_quantity` and `rfq.min_order_value` are intake filters. `constraints.moq` and `constraints.min_order_value` are production constraints. They may differ.
+- `rfq.nda_required` is an actionable flag for AI agents. `compliance.ip_protection` provides descriptive context.
+
+### 4.11 Endpoints
 
 #### `endpoints`
 
@@ -322,7 +356,7 @@ Each certification object:
 | `email` | `string` | Contact email address. |
 | `phone` | `string` | Contact phone number. |
 
-### 4.11 Media
+### 4.12 Media
 
 #### `media`
 
@@ -335,7 +369,7 @@ Each certification object:
 | `cover` | `string` (URI) | Cover / hero image URL. |
 | `gallery` | `string[]` (URI) | Array of gallery image URLs. |
 
-### 4.12 Business Hours
+### 4.13 Business Hours
 
 #### `business_hours`
 
@@ -348,7 +382,7 @@ Each certification object:
 | `hours` | `string` | Operating hours (e.g. `"Mon-Fri 08:00-18:00"`). |
 | `response_time` | `string` | Typical RFQ response time (e.g. `"within 24 hours"`). |
 
-### 4.13 Custom
+### 4.14 Custom
 
 #### `custom`
 
@@ -463,6 +497,10 @@ The following table maps factory.json fields to their A2A Agent Card equivalents
 | `engineering.file_formats` | Supported input artifact MIME types | File formats accepted by the factory map to the MIME types the agent can accept as input artifacts. |
 | `name`, `description`, `location` | Agent Card identity fields | Factory identity fields map directly to the Agent Card's `name`, `description`, and `metadata.location`. |
 | `endpoints.rfq` | Skill endpoint for RFQ intake | The RFQ endpoint becomes the backing implementation for an RFQ intake skill. |
+| `rfq.required_fields` | `AgentSkill.inputSchema` | Required RFQ fields map to the input schema of the RFQ intake skill. |
+| `rfq.required_files` | Required input artifact types | Required file types map to MIME types the RFQ intake skill requires as input artifacts. |
+| `rfq.nda_required` | Pre-authentication step | If true, the A2A task flow SHOULD include an NDA signing step before accepting file artifacts. |
+| `rfq.auto_quote` | Skill response mode | Indicates whether the skill returns instant quotes or enters a human-reviewed pipeline. |
 
 ### 9.4 Industrial Task Extension
 
