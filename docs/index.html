@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>factory.json — Open Standard for Machine-Readable Manufacturing</title>
-  <meta name="description" content="factory.json is an open schema (v1.1) that makes manufacturing facilities machine-readable. Describe capabilities, certifications, constraints, and endpoints in a single JSON file — with optional A2A agent interoperability.">
+  <meta name="description" content="factory.json is an open schema (v1.2) that makes manufacturing facilities machine-readable. Describe capabilities, certifications, constraints, and endpoints in a single JSON file — with RFQ intake requirements and optional A2A agent interoperability.">
   <link rel="canonical" href="https://factoryjson.org">
 
   <!-- Open Graph -->
@@ -65,7 +65,7 @@
     <div class="container">
       <h1>factory<span class="accent">.json</span></h1>
       <p class="hero-tagline">Make your factory machine-readable</p>
-      <span class="badge">v1.1</span>
+      <span class="badge">v1.2</span>
       <div class="hero-cta">
         <a href="#spec" class="btn btn-primary">Read the Spec</a>
         <a href="https://github.com/AirflowTrading/factory-json" target="_blank" rel="noopener" class="btn btn-secondary">View on GitHub</a>
@@ -158,7 +158,7 @@
               <li><code>name</code> <span class="badge badge-sm badge-required">req</span> — Factory trade name</li>
               <li><code>location</code> <span class="badge badge-sm badge-required">req</span> — String or structured object</li>
               <li><code>capabilities</code> <span class="badge badge-sm badge-required">req</span> — Processes, materials, equipment</li>
-              <li><code>version</code> — Schema version (<code>"1.0"</code> or <code>"1.1"</code>)</li>
+              <li><code>version</code> — Schema version (<code>"1.0"</code>, <code>"1.1"</code>, or <code>"1.2"</code>)</li>
               <li><code>legal_name</code> — Registered legal entity name</li>
               <li><code>description</code> — Free-text description</li>
               <li><code>vertical</code> — Industry vertical</li>
@@ -303,6 +303,27 @@
 
         <div class="schema-card">
           <div class="schema-card-header" data-collapsible>
+            <h3>RFQ Requirements <span class="badge badge-sm">new in v1.2</span></h3>
+            <span class="chevron"></span>
+          </div>
+          <div class="schema-card-body">
+            <ul>
+              <li><code>endpoint</code> — RFQ submission URI</li>
+              <li><code>required_fields</code> — Info required in every RFQ</li>
+              <li><code>required_files</code> — File types that must accompany RFQ</li>
+              <li><code>accepted_types</code> — Accepted part/product types</li>
+              <li><code>min_quantity</code> — Minimum quantity to review</li>
+              <li><code>min_order_value</code> — Minimum order value to review</li>
+              <li><code>nda_required</code> — NDA required before review</li>
+              <li><code>auto_quote</code> — Instant quoting supported</li>
+              <li><code>notes</code> — Free-text submission instructions</li>
+            </ul>
+            <p class="schema-note">Shorthand: <code>"https://factory.example.com/rfq"</code></p>
+          </div>
+        </div>
+
+        <div class="schema-card">
+          <div class="schema-card-header" data-collapsible>
             <h3>Endpoints</h3>
             <span class="chevron"></span>
           </div>
@@ -388,7 +409,7 @@
             </div>
             <pre id="example-machine-shop"><code class="language-json">{
   "$schema": "https://factoryschema.org/factory.schema.json",
-  "version": "1.1",
+  "version": "1.2",
   "name": "Precision Works Manufacturing Co.",
   "legal_name": "Precision Works Manufacturing (Shenzhen) Co., Ltd.",
   "description": "High-precision CNC machining facility specializing in aerospace and medical-grade components.",
@@ -458,6 +479,13 @@
   "quality": {
     "testing": ["CMM inspection", "first article inspection (FAI / AS9102)"],
     "defect_rate_ppm": 800
+  },
+  "rfq": {
+    "required_fields": ["quantity", "material", "delivery_date"],
+    "required_files": ["STEP", "PDF drawing"],
+    "accepted_types": ["machined parts", "prototypes", "production runs"],
+    "nda_required": true,
+    "auto_quote": false
   },
   "endpoints": {
     "rfq": "https://precisionworks.factoryschema.org/rfq",
@@ -697,7 +725,7 @@
   <section class="section" id="a2a">
     <div class="container">
       <h2>A2A Interoperability</h2>
-      <p class="section-intro">Bridge from static profiles to active agent nodes with the <a href="https://github.com/google/A2A" target="_blank" rel="noopener">A2A (Agent-to-Agent) protocol</a>. Optional in v1.1.</p>
+      <p class="section-intro">Bridge from static profiles to active agent nodes with the <a href="https://github.com/google/A2A" target="_blank" rel="noopener">A2A (Agent-to-Agent) protocol</a>. Optional since v1.1.</p>
 
       <div class="spec-block">
         <h3>Discovery Bridge</h3>
@@ -750,6 +778,9 @@
               <tr><td><code>engineering.file_formats</code></td><td>Input artifact MIME types</td><td>STEP, PDF, DXF as accepted input formats</td></tr>
               <tr><td><code>name</code>, <code>description</code></td><td>Agent Card identity</td><td>Direct mapping to agent identity fields</td></tr>
               <tr><td><code>endpoints.rfq</code></td><td>RFQ intake skill</td><td>RFQ endpoint backs the intake skill</td></tr>
+              <tr><td><code>rfq.required_fields</code></td><td><code>AgentSkill.inputSchema</code></td><td>Required fields map to RFQ skill input schema</td></tr>
+              <tr><td><code>rfq.required_files</code></td><td>Required input artifacts</td><td>Required file types as input artifact MIME types</td></tr>
+              <tr><td><code>rfq.nda_required</code></td><td>Pre-authentication step</td><td>NDA signing step before accepting file artifacts</td></tr>
             </tbody>
           </table>
         </div>
@@ -811,7 +842,10 @@
           "lead_time_min_days": 10,
           "lead_time_max_days": 35,
           "expedite_available": true
-        }
+        },
+        "required_fields": ["quantity", "material", "delivery_date"],
+        "required_files": ["STEP", "PDF drawing"],
+        "nda_required": true
       }
     },
     {
@@ -847,7 +881,7 @@
       <div class="adopt-steps">
         <div class="adopt-step">
           <h3>1. Create your file</h3>
-          <p>Start with the minimal example and add fields from the schema. Validate against the <a href="https://github.com/AirflowTrading/factory-json/blob/main/schema/v1.1/factory.schema.json" target="_blank" rel="noopener">JSON Schema</a>.</p>
+          <p>Start with the minimal example and add fields from the schema. Validate against the <a href="https://github.com/AirflowTrading/factory-json/blob/main/schema/v1.2/factory.schema.json" target="_blank" rel="noopener">JSON Schema</a>.</p>
         </div>
         <div class="adopt-step">
           <h3>2. Configure your web server</h3>
