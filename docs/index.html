@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>factory.json — Open Standard for Machine-Readable Manufacturing</title>
-  <meta name="description" content="factory.json is an open schema (v1.2) that makes manufacturing facilities machine-readable. Describe capabilities, certifications, constraints, and endpoints in a single JSON file — with RFQ intake requirements and optional A2A agent interoperability.">
+  <meta name="description" content="factory.json is an open schema (v1.3) that makes manufacturing facilities machine-readable. Describe capabilities, certifications, constraints, and endpoints in a single JSON file — with RFQ intake requirements and A2A protocol extension for agent discovery.">
   <link rel="canonical" href="https://factoryjson.org">
 
   <!-- Open Graph -->
@@ -65,7 +65,7 @@
     <div class="container">
       <h1>factory<span class="accent">.json</span></h1>
       <p class="hero-tagline">Make your factory machine-readable</p>
-      <span class="badge">v1.2</span>
+      <span class="badge">v1.3</span>
       <div class="hero-cta">
         <a href="#spec" class="btn btn-primary">Read the Spec</a>
         <a href="https://github.com/factory-json/factory-json" target="_blank" rel="noopener" class="btn btn-secondary">View on GitHub</a>
@@ -725,62 +725,109 @@
   <section class="section" id="a2a">
     <div class="container">
       <h2>A2A Interoperability</h2>
-      <p class="section-intro">Bridge from static profiles to active agent nodes with the <a href="https://github.com/google/A2A" target="_blank" rel="noopener">A2A (Agent-to-Agent) protocol</a>. Optional since v1.1.</p>
+      <p class="section-intro">factory.json integrates with the <a href="https://a2a-protocol.org" target="_blank" rel="noopener">A2A (Agent-to-Agent) protocol</a> as a protocol extension — making factories discoverable through the A2A ecosystem. Optional since v1.1, refactored as extension in v1.3.</p>
 
       <div class="spec-block">
-        <h3>Discovery Bridge</h3>
-        <p>Two complementary files work together: <code>factory.json</code> describes <em>what</em> a factory can do (static profile), while <code>agent-card.json</code> describes <em>how</em> an AI agent can interact with it (active endpoint). The <code>endpoints.a2a</code> field links one to the other.</p>
+        <h3>How It Works</h3>
+        <p>The A2A Agent Card is a <strong>lean interaction layer</strong> — just enough for agents to discover and talk to your factory. The factory.json file remains the <strong>rich data layer</strong> with full manufacturing detail. The Agent Card links to factory.json via a URI reference.</p>
 
         <div class="code-block">
           <div class="code-header">
-            <span>factory.json — endpoints with A2A</span>
-            <button class="copy-btn" data-target="a2a-endpoints" aria-label="Copy to clipboard">Copy</button>
+            <span>agent-card.json — lean entry point</span>
+            <button class="copy-btn" data-target="a2a-agent-card" aria-label="Copy to clipboard">Copy</button>
           </div>
-          <pre id="a2a-endpoints"><code class="language-json">{
-  "endpoints": {
-    "rfq": "https://factory.example.com/rfq",
-    "mcp": "https://factory.example.com/.well-known/mcp",
-    "a2a": "https://factory.example.com/.well-known/agent-card.json",
-    "email": "sales@factory.example.com"
+          <pre id="a2a-agent-card"><code class="language-json">{
+  "name": "Precision Works Manufacturing Agent",
+  "description": "Aerospace-grade CNC machining — RFQ intake, quoting, and capability queries.",
+  "supportedInterfaces": [{
+    "url": "https://precisionworks.example.com/a2a/v1",
+    "protocolBinding": "HTTP+JSON",
+    "protocolVersion": "1.0"
+  }],
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "extensions": [{
+      "uri": "https://factoryschema.org/a2a-extension/v1",
+      "description": "Manufacturing facility profile (factory.json)",
+      "required": false
+    }]
+  },
+  "defaultInputModes": ["application/json"],
+  "defaultOutputModes": ["application/json"],
+  "skills": [
+    {
+      "id": "rfq-intake",
+      "name": "RFQ Intake",
+      "description": "Submit a Request for Quote with part drawings, quantities, and requirements.",
+      "tags": ["rfq", "quoting", "manufacturing"]
+    },
+    {
+      "id": "capability-query",
+      "name": "Capability Query",
+      "description": "Query factory capabilities, certifications, and lead times.",
+      "tags": ["query", "capabilities"]
+    }
+  ],
+  "metadata": {
+    "factoryProfile": "https://precisionworks.example.com/.well-known/factory.json",
+    "vertical": "machining",
+    "location": "Shenzhen, CN"
   }
 }</code></pre>
         </div>
 
         <div class="code-block">
           <div class="code-header">
-            <span>agent-card.json — pointing back to factory.json</span>
-            <button class="copy-btn" data-target="a2a-backlink" aria-label="Copy to clipboard">Copy</button>
+            <span>factory.json — endpoints linking back to Agent Card</span>
+            <button class="copy-btn" data-target="a2a-endpoints" aria-label="Copy to clipboard">Copy</button>
           </div>
-          <pre id="a2a-backlink"><code class="language-json">{
-  "name": "Factory Agent",
-  "description": "AI agent for RFQ intake and capability queries.",
-  "url": "https://factory.example.com/.well-known/agent-card.json",
-  "skills": [ ... ],
-  "metadata": {
-    "factory_json": "https://factory.example.com/.well-known/factory.json"
+          <pre id="a2a-endpoints"><code class="language-json">{
+  "endpoints": {
+    "rfq": "https://factory.example.com/rfq",
+    "a2a": "https://factory.example.com/.well-known/agent-card.json",
+    "email": "sales@factory.example.com"
   }
 }</code></pre>
         </div>
       </div>
 
       <div class="spec-block">
+        <h3>What Goes Where</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Agent Card (lean)</th><th>factory.json (rich)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Name, description, provider</td><td>Full legal name, founding year, employees</td></tr>
+              <tr><td>Supported interfaces &amp; protocol</td><td>Detailed capabilities, materials, equipment</td></tr>
+              <tr><td>Skills at summary level</td><td>Certifications with expiry &amp; issuing bodies</td></tr>
+              <tr><td>Extension declaration &amp; profile URI</td><td>Constraints (MOQ, tolerances, lead times)</td></tr>
+              <tr><td>Routing hints (vertical, location)</td><td>Quality, engineering, shipping, payment, compliance</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="spec-block">
         <h3>Semantic Mapping</h3>
-        <p>How factory.json fields map to A2A Agent Card concepts:</p>
+        <p>When a consumer fetches factory.json via the <code>metadata.factoryProfile</code> URI, these fields map to A2A concepts:</p>
         <div class="table-wrap">
           <table>
             <thead>
               <tr><th>factory.json Field</th><th>A2A Concept</th><th>Mapping</th></tr>
             </thead>
             <tbody>
-              <tr><td><code>capabilities.processes</code></td><td><code>AgentSkill.name</code></td><td>Each process becomes an agent skill</td></tr>
-              <tr><td><code>certifications</code></td><td><code>AgentSkill.metadata.verifications</code></td><td>Certs attached as verification metadata</td></tr>
-              <tr><td><code>constraints.lead_time</code></td><td><code>AgentSkill.metadata.performance_metrics</code></td><td>Lead time, capacity as performance metrics</td></tr>
+              <tr><td><code>name</code>, <code>description</code>, <code>location</code></td><td>Agent Card identity</td><td>Direct mapping to agent identity fields</td></tr>
+              <tr><td><code>capabilities.processes</code></td><td><code>AgentSkill</code></td><td>Each process MAY become a skill, or summarized into one</td></tr>
               <tr><td><code>engineering.file_formats</code></td><td>Input artifact MIME types</td><td>STEP, PDF, DXF as accepted input formats</td></tr>
-              <tr><td><code>name</code>, <code>description</code></td><td>Agent Card identity</td><td>Direct mapping to agent identity fields</td></tr>
-              <tr><td><code>endpoints.rfq</code></td><td>RFQ intake skill</td><td>RFQ endpoint backs the intake skill</td></tr>
-              <tr><td><code>rfq.required_fields</code></td><td><code>AgentSkill.inputSchema</code></td><td>Required fields map to RFQ skill input schema</td></tr>
+              <tr><td><code>rfq.required_fields</code></td><td>Skill input requirements</td><td>Required fields define RFQ skill input schema</td></tr>
               <tr><td><code>rfq.required_files</code></td><td>Required input artifacts</td><td>Required file types as input artifact MIME types</td></tr>
               <tr><td><code>rfq.nda_required</code></td><td>Pre-authentication step</td><td>NDA signing step before accepting file artifacts</td></tr>
+              <tr><td><code>certifications</code></td><td>Trust signals</td><td>Used to evaluate agent trustworthiness</td></tr>
+              <tr><td><code>constraints</code></td><td>Feasibility filtering</td><td>Check MOQ, dimensions, tolerances before submitting</td></tr>
             </tbody>
           </table>
         </div>
@@ -805,69 +852,6 @@
         </div>
         <p><strong>Input artifacts:</strong> STEP (<code>model/step</code>), PDF (<code>application/pdf</code>), DXF (<code>image/vnd.dxf</code>)<br>
         <strong>Output artifacts:</strong> Quote PDF (<code>application/pdf</code>), structured JSON (<code>application/json</code>)</p>
-      </div>
-
-      <div class="spec-block">
-        <h3>Example Agent Card</h3>
-        <p>A complete A2A Agent Card corresponding to the machine shop example, with skills derived from factory capabilities:</p>
-        <div class="code-block">
-          <div class="code-header">
-            <span>agent-card.json</span>
-            <button class="copy-btn" data-target="a2a-agent-card" aria-label="Copy to clipboard">Copy</button>
-          </div>
-          <pre id="a2a-agent-card"><code class="language-json">{
-  "name": "Precision Works Manufacturing Agent",
-  "description": "AI agent for RFQ intake, quoting, and capability queries for aerospace-grade CNC machining.",
-  "url": "https://precisionworks.example.com/.well-known/agent-card.json",
-  "provider": {
-    "organization": "Precision Works Manufacturing (Shenzhen) Co., Ltd.",
-    "url": "https://precisionworks.example.com"
-  },
-  "version": "1.0.0",
-  "defaultInputModes": ["application/json"],
-  "defaultOutputModes": ["application/json"],
-  "skills": [
-    {
-      "id": "rfq-intake",
-      "name": "RFQ Intake",
-      "description": "Submit a Request for Quote with part drawings, quantities, and requirements.",
-      "tags": ["rfq", "quoting", "manufacturing"],
-      "metadata": {
-        "verifications": [
-          "ISO 9001:2015 (TÜV SÜD)",
-          "AS9100D (BSI)",
-          "ITAR Registered"
-        ],
-        "performance_metrics": {
-          "lead_time_min_days": 10,
-          "lead_time_max_days": 35,
-          "expedite_available": true
-        },
-        "required_fields": ["quantity", "material", "delivery_date"],
-        "required_files": ["STEP", "PDF drawing"],
-        "nda_required": true
-      }
-    },
-    {
-      "id": "5-axis-cnc-milling",
-      "name": "5-axis CNC milling",
-      "description": "High-precision 5-axis milling. Tolerances to ±0.005 mm.",
-      "tags": ["cnc", "milling", "5-axis"]
-    },
-    {
-      "id": "capability-query",
-      "name": "Capability Query",
-      "description": "Query capabilities, materials, certifications, and capacity.",
-      "tags": ["query", "capabilities"]
-    }
-  ],
-  "metadata": {
-    "factory_json": "https://precisionworks.example.com/.well-known/factory.json",
-    "vertical": "machining",
-    "location": "Shenzhen, CN"
-  }
-}</code></pre>
-        </div>
       </div>
     </div>
   </section>
@@ -941,9 +925,10 @@ RewriteRule ^\.well-known/factory\.json$ /factory.json [L]
 
       <div class="adopt-step">
         <h3>4. Enable A2A Discovery (Optional)</h3>
-        <p>To make your factory reachable by AI agents via the A2A protocol:</p>
+        <p>To make your factory discoverable by AI agents via the A2A protocol:</p>
         <ol>
-          <li>Create an <code>agent-card.json</code> describing your agent's skills (derived from your factory capabilities)</li>
+          <li>Create a lean <code>agent-card.json</code> with your agent's skills and a <code>metadata.factoryProfile</code> URI pointing to your factory.json</li>
+          <li>Declare the <code>factoryschema.org/a2a-extension/v1</code> extension in the Agent Card's capabilities</li>
           <li>Host it at <code>/.well-known/agent-card.json</code> on your domain</li>
           <li>Add the <code>"a2a"</code> endpoint to your <code>factory.json</code>:</li>
         </ol>
@@ -957,7 +942,7 @@ RewriteRule ^\.well-known/factory\.json$ /factory.json [L]
   ...
 }</code></pre>
         </div>
-        <p>See the <a href="#a2a">A2A Interoperability</a> section for the full semantic mapping and example Agent Card.</p>
+        <p>The Agent Card stays lean — just name, skills, and a link to your factory.json. All the rich manufacturing data stays in one place. See the <a href="#a2a">A2A Interoperability</a> section for the full example.</p>
       </div>
     </div>
   </section>
