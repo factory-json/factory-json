@@ -5,6 +5,19 @@ All notable changes to the factory.json specification will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-04-01
+
+### Changed
+
+- **A2A integration model** — Reframed factory.json as an A2A protocol extension rather than a bridge pattern
+  - Agent Card is now the lean interaction entry point; factory.json remains the rich data layer
+  - Agent Card links to factory.json via `metadata.factoryProfile` URI reference (replaces embedded data)
+  - Registered extension URI: `https://factoryschema.org/a2a-extension/v1`
+  - New Section 9.4 (Lean Agent Card Design) — clear guidance on what belongs in the Agent Card vs factory.json
+  - Renamed `metadata.factory_json` to `metadata.factoryProfile` for consistency
+  - Updated A2A protocol link to `a2a-protocol.org` (now under Linux Foundation)
+- **Agent Card example** simplified — removed duplicated manufacturing data, skills reduced to summary level, factory profile referenced by URI
+
 ## [1.2.0] - 2026-03-30
 
 ### Added

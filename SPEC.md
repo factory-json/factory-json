@@ -460,49 +460,100 @@ See the [examples/](examples/) directory for complete, real-world profiles:
 
 ### 9.1 Overview
 
-The [A2A (Agent-to-Agent) protocol](https://github.com/google/A2A) defines a standard for AI agents to discover each other's capabilities and exchange tasks. By bridging factory.json with A2A, manufacturing facilities can transition from passive, crawlable profiles to active agent nodes — discoverable and reachable by AI agents for automated RFQ intake, quoting, capability queries, and supply chain orchestration.
+The [A2A (Agent-to-Agent) protocol](https://a2a-protocol.org) defines a standard for AI agents to discover each other's capabilities and exchange tasks. factory.json integrates with A2A as a **protocol extension**, allowing manufacturing facilities to be discovered through the A2A ecosystem while keeping factory.json as the authoritative source for rich manufacturing data.
+
+The A2A Agent Card at `/.well-known/agent-card.json` serves as the **interaction entry point** — a lean file describing how to communicate with the factory's agent. The factory.json file at `/.well-known/factory.json` remains the **data layer** — the complete manufacturing profile with capabilities, certifications, constraints, and quality processes.
 
 A2A interoperability is OPTIONAL. Factories MAY adopt it incrementally: first publish a factory.json (static profile), then add an A2A Agent Card (active agent endpoint) when ready.
 
-### 9.2 Discovery Bridge
+### 9.2 Extension Registration
 
-The recommended pattern uses two complementary files:
+factory.json is registered as an A2A extension. Agent Cards that link to a factory profile SHOULD declare the extension in `capabilities.extensions`:
 
-1. **`factory.json`** — Static profile describing the factory's capabilities, certifications, and constraints. Hosted at `/.well-known/factory.json`.
-2. **`agent-card.json`** — A2A Agent Card describing the factory's AI agent capabilities and supported tasks. Hosted at `/.well-known/agent-card.json`.
+```json
+{
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "extensions": [
+      {
+        "uri": "https://factoryschema.org/a2a-extension/v1",
+        "description": "Manufacturing facility profile (factory.json)",
+        "required": false
+      }
+    ]
+  }
+}
+```
 
-The `endpoints.a2a` field in factory.json SHOULD point to the Agent Card URI:
+Setting `required: false` ensures generic A2A clients can interact with the agent without understanding factory.json. Manufacturing-aware clients MAY parse the linked profile for richer context.
+
+### 9.3 Discovery
+
+The Agent Card and factory.json reference each other through bidirectional links:
+
+**Agent Card → factory.json**: The Agent Card SHOULD include a `metadata.factoryProfile` field containing the URI of the factory.json file:
+
+```json
+{
+  "metadata": {
+    "factoryProfile": "https://factory.example.com/.well-known/factory.json",
+    "vertical": "machining",
+    "location": "Shenzhen, CN"
+  }
+}
+```
+
+The `vertical` and `location` fields are RECOMMENDED as inline hints, allowing A2A clients to filter and route without fetching the full profile.
+
+**factory.json → Agent Card**: The `endpoints.a2a` field in factory.json SHOULD point to the Agent Card URI:
 
 ```json
 {
   "endpoints": {
     "rfq": "https://factory.example.com/rfq",
-    "mcp": "https://factory.example.com/.well-known/mcp",
     "a2a": "https://factory.example.com/.well-known/agent-card.json"
   }
 }
 ```
 
-Conversely, the Agent Card SHOULD include a `metadata.factory_json` field pointing back to the factory.json file, enabling bidirectional discovery.
+### 9.4 Lean Agent Card Design
 
-### 9.3 Semantic Mapping
+The Agent Card SHOULD remain lean — limited to what an A2A client needs to decide whether and how to interact with the agent. Rich manufacturing data (certifications, tolerances, equipment, constraints, quality processes) stays in factory.json.
 
-The following table maps factory.json fields to their A2A Agent Card equivalents:
+**What belongs in the Agent Card**:
+- Agent name, description, and provider
+- Supported interfaces (URL, protocol binding, version)
+- Skills at a summary level (id, name, description, tags)
+- Extension declaration and factory profile URI
+- Lightweight routing hints (vertical, location)
+
+**What stays in factory.json**:
+- Detailed capabilities (processes, materials, finishes, equipment)
+- Certifications with expiry dates and issuing bodies
+- Production constraints (MOQ, lead times, tolerances, capacity)
+- Quality processes and inspection equipment
+- Engineering support (file formats, DFM, prototyping)
+- RFQ intake requirements
+- Shipping, payment, and compliance details
+
+### 9.5 Semantic Mapping
+
+When a consumer fetches factory.json via the `metadata.factoryProfile` URI, the following mapping relates factory.json fields to A2A concepts:
 
 | factory.json Field | A2A Concept | Mapping |
 |---|---|---|
-| `capabilities.processes` | `AgentSkill.name` | Each manufacturing process MAY be represented as a skill on the Agent Card. |
-| `certifications` | `AgentSkill.metadata.verifications` | Certifications SHOULD be included as verification metadata on relevant skills. |
-| `constraints.lead_time` | `AgentSkill.metadata.performance_metrics` | Lead time, capacity, and other constraints SHOULD be expressed as performance metrics. |
-| `engineering.file_formats` | Supported input artifact MIME types | File formats accepted by the factory map to the MIME types the agent can accept as input artifacts. |
-| `name`, `description`, `location` | Agent Card identity fields | Factory identity fields map directly to the Agent Card's `name`, `description`, and `metadata.location`. |
-| `endpoints.rfq` | Skill endpoint for RFQ intake | The RFQ endpoint becomes the backing implementation for an RFQ intake skill. |
-| `rfq.required_fields` | `AgentSkill.inputSchema` | Required RFQ fields map to the input schema of the RFQ intake skill. |
-| `rfq.required_files` | Required input artifact types | Required file types map to MIME types the RFQ intake skill requires as input artifacts. |
+| `name`, `description`, `location` | Agent Card identity | Map directly to the Agent Card's `name`, `description`, and `metadata.location`. |
+| `capabilities.processes` | `AgentSkill` | Each process MAY be represented as a skill on the Agent Card, or summarized into a single skill. |
+| `engineering.file_formats` | Input artifact MIME types | Accepted file formats inform which MIME types the agent can receive as task input artifacts. |
+| `rfq.required_fields` | Skill input requirements | Required RFQ fields define what the RFQ intake skill expects as structured input. |
+| `rfq.required_files` | Required input artifacts | Required file types map to MIME types the RFQ intake skill requires as input artifacts. |
 | `rfq.nda_required` | Pre-authentication step | If true, the A2A task flow SHOULD include an NDA signing step before accepting file artifacts. |
 | `rfq.auto_quote` | Skill response mode | Indicates whether the skill returns instant quotes or enters a human-reviewed pipeline. |
+| `certifications` | Trust signals | Consumers MAY use certifications to evaluate agent trustworthiness before initiating a task. |
+| `constraints` | Feasibility filtering | Consumers SHOULD check constraints (MOQ, max dimensions, tolerances) before submitting a task. |
 
-### 9.4 Industrial Task Extension
+### 9.6 Industrial Task Extension
 
 When using A2A tasks for RFQ workflows, the following conventions are RECOMMENDED:
 
@@ -520,14 +571,14 @@ When using A2A tasks for RFQ workflows, the following conventions are RECOMMENDE
 
 **Output Artifacts**: Quote PDF (`application/pdf`), structured quote JSON (`application/json`).
 
-### 9.5 Trust & Verification
+### 9.7 Trust & Verification
 
 Agent Cards MAY be signed using JSON Web Signature (JWS) to establish authenticity. This is OPTIONAL and not required for basic interoperability.
 
 Publishers who sign their Agent Cards SHOULD:
 
 - Use a key associated with the factory's domain (e.g. via a `/.well-known/jwks.json` endpoint).
-- Include the `factory_json` URL in the signed payload so consumers can verify the binding between the Agent Card and the factory profile.
+- Include the `factoryProfile` URL in the signed payload so consumers can verify the binding between the Agent Card and the factory profile.
 
 Consumers SHOULD NOT treat Agent Card claims as verified without additional validation, consistent with the security guidance in [Section 7.3](#73-data-accuracy).
 
