@@ -66,19 +66,7 @@
     },
     "certifications": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["type"],
-        "properties": {
-          "type": { "type": "string", "minLength": 1, "description": "Certification name (e.g. \"ISO 9001:2015\", \"GOTS\")." },
-          "body": { "type": "string", "description": "Issuing / certifying body." },
-          "id": { "type": "string", "description": "Certificate ID or number." },
-          "issued": { "type": "string", "format": "date", "description": "Date issued (YYYY-MM-DD)." },
-          "expires": { "type": "string", "format": "date", "description": "Expiry date (YYYY-MM-DD)." },
-          "url": { "type": "string", "format": "uri", "description": "Link to certificate or verification page." }
-        },
-        "additionalProperties": false
-      },
+      "items": { "type": "string" },
       "description": "Industry certifications and compliance credentials."
     },
     "website": {
