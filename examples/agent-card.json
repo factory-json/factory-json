@@ -19,7 +19,7 @@
     "extensions": [
       {
         "uri": "https://factoryschema.org/a2a-extension/v1",
-        "description": "Manufacturing facility profile (factory.json)",
+        "description": "Manufacturing facility profile (factory.md)",
         "required": false
       }
     ]
@@ -41,7 +41,7 @@
     }
   ],
   "metadata": {
-    "factoryProfile": "https://precisionworks.example.com/.well-known/factory.json",
+    "factoryProfile": "https://precisionworks.example.com/.well-known/factory.md",
     "vertical": "machining",
     "location": "Shenzhen, CN"
   }

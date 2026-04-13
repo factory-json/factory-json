@@ -1,9 +1,43 @@
 # Changelog
 
-All notable changes to the factory.json specification will be documented in this file.
+All notable changes to the factory.md specification will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [2.0.0] - 2026-04-12
+
+### Changed (BREAKING)
+
+- **Format migration**: factory.json is now factory.md — a Markdown file with YAML frontmatter
+  - Well-known URI: `/.well-known/factory.md` (was `/.well-known/factory.json`)
+  - Content-Type: `text/markdown; charset=utf-8` (was `application/json`)
+  - `$schema` replaced by `schema` (no dollar prefix, YAML-friendly)
+- **Two-layer architecture**: Structured data in YAML frontmatter (validated by JSON Schema), rich descriptions in Markdown body (recommended sections, not enforced)
+- **Minimal frontmatter** (8 fields): `schema`, `name`, `location`, `vertical`, `capabilities`, `certifications`, `website`, `email`. Only `name` and `location` are required.
+- **Capabilities simplified**: Only the flat string array form in frontmatter; detailed materials, equipment, finishes, tolerances move to Markdown body
+- **Endpoints flattened**: `website` and `email` are top-level frontmatter fields; other endpoints (rfq, mcp, a2a) move to the Markdown body
+- **RFQ simplified**: URI and detailed requirements move to Markdown body section
+- **A2A references updated**: `metadata.factoryProfile` now points to `factory.md`
+
+### Removed (from schema — moved to Markdown body)
+
+- `$schema` field (replaced by `schema`)
+- Structured `capabilities` object form (processes, materials, finishes, equipment)
+- `quality`, `engineering`, `shipping`, `payment`, `compliance`, `media`, `business_hours`, `custom`
+- `constraints` (MOQ, lead time, tolerances, capacity, dimensions, weight)
+- `endpoints` object (rfq, api, mcp, a2a, phone)
+- `description`, `legal_name`, `founded_year`, `employees`, `languages`, `industries_served`
+- `version` field (schema version now implied by `schema` URI)
+
+### Added
+
+- v2.0 JSON Schema at `schema/v2.0/factory.schema.json` (validates frontmatter only)
+- Three example `.md` files across manufacturing verticals
+- Recommended Markdown body sections with RFC 2119 language (SHOULD/MAY)
+- Non-normative Appendix A with common vertical and capability values
+- YAML parsing security guidance (quote country codes, cert types)
+- Section 7.1: Migration guidance from v1.x
 
 ## [1.3.0] - 2026-04-01
 

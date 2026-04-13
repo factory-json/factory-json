@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>factory.json — Open Standard for Machine-Readable Manufacturing</title>
-  <meta name="description" content="factory.json is an open schema (v1.3) that makes manufacturing facilities machine-readable. Describe capabilities, certifications, constraints, and endpoints in a single JSON file — with RFQ intake requirements and A2A protocol extension for agent discovery.">
+  <title>factory.md — Open Standard for Machine-Readable Manufacturing</title>
+  <meta name="description" content="factory.md is an open standard (v2.0) that makes manufacturing facilities machine-readable. A Markdown file with YAML frontmatter describes capabilities, certifications, and endpoints — readable by humans, AI agents, and platforms alike.">
   <link rel="canonical" href="https://factoryjson.org">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="factory.json — Open Standard for Machine-Readable Manufacturing">
-  <meta property="og:description" content="A single JSON file that describes a factory's capabilities, certifications, constraints, and endpoints — in a format any AI agent or platform can understand.">
+  <meta property="og:title" content="factory.md — Open Standard for Machine-Readable Manufacturing">
+  <meta property="og:description" content="A single Markdown file with YAML frontmatter that describes a factory's capabilities, certifications, and endpoints — readable by humans and AI agents alike.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://factoryjson.org">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="factory.json — Machine-Readable Manufacturing">
-  <meta name="twitter:description" content="An open standard for describing manufacturing facilities in JSON. Discoverable, minimal, validated.">
+  <meta name="twitter:title" content="factory.md — Machine-Readable Manufacturing">
+  <meta name="twitter:description" content="An open standard for describing manufacturing facilities in Markdown with YAML frontmatter. Discoverable, minimal, human- and machine-readable.">
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "factory.json",
+    "name": "factory.md",
     "url": "https://factoryjson.org",
     "description": "An open standard for machine-readable manufacturing facility descriptions.",
     "creator": {
@@ -43,7 +43,7 @@
   <!-- Nav -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a href="#" class="nav-logo">factory.json</a>
+      <a href="#" class="nav-logo">factory.md</a>
       <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-label="Toggle navigation">
       <label for="nav-toggle" class="nav-toggle" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -63,14 +63,14 @@
   <!-- Hero -->
   <section class="hero" id="hero">
     <div class="container">
-      <h1>factory<span class="accent">.json</span></h1>
+      <h1>factory<span class="accent">.md</span></h1>
       <p class="hero-tagline">Make your factory machine-readable</p>
-      <span class="badge">v1.3</span>
+      <span class="badge">v2.0</span>
       <div class="hero-cta">
         <a href="#spec" class="btn btn-primary">Read the Spec</a>
         <a href="https://github.com/factory-json/factory-json" target="_blank" rel="noopener" class="btn btn-secondary">View on GitHub</a>
       </div>
-      <p class="hero-sub">A single JSON file describes a factory's capabilities, certifications, production constraints, and interaction endpoints — in a format any AI agent, procurement platform, or search engine can understand.</p>
+      <p class="hero-sub">A Markdown file with YAML frontmatter describes a factory's capabilities, certifications, and endpoints — readable by humans, AI agents, and procurement platforms alike. Structured frontmatter for search and filtering, rich Markdown body for everything else.</p>
     </div>
   </section>
 
@@ -82,22 +82,22 @@
         <div class="step">
           <span class="step-num">1</span>
           <h3>Create</h3>
-          <p>Create a <code>factory.json</code> file with 4 required fields</p>
+          <p>Create a <code>factory.md</code> file with 2 required frontmatter fields</p>
         </div>
         <div class="step">
           <span class="step-num">2</span>
-          <h3>Extend</h3>
-          <p>Add optional fields from the <a href="#spec">specification</a></p>
+          <h3>Describe</h3>
+          <p>Add recommended frontmatter fields and Markdown body sections</p>
         </div>
         <div class="step">
           <span class="step-num">3</span>
           <h3>Validate</h3>
-          <p>Validate against the <a href="https://github.com/factory-json/factory-json/blob/main/schema/v1.0/factory.schema.json" target="_blank" rel="noopener">JSON Schema</a></p>
+          <p>Validate frontmatter against the <a href="https://github.com/factory-json/factory-json/blob/main/schema/v2.0/factory.schema.json" target="_blank" rel="noopener">JSON Schema</a></p>
         </div>
         <div class="step">
           <span class="step-num">4</span>
           <h3>Host</h3>
-          <p>Serve at <code>/.well-known/factory.json</code> on your domain</p>
+          <p>Serve at <code>/.well-known/factory.md</code> on your domain</p>
         </div>
       </div>
       <div class="code-block">
@@ -105,21 +105,40 @@
           <span>Minimal Example</span>
           <button class="copy-btn" data-target="minimal-example" aria-label="Copy to clipboard">Copy</button>
         </div>
-        <pre id="minimal-example"><code class="language-json">{
-  "$schema": "https://factoryschema.org/factory.schema.json",
-  "name": "My Factory",
-  "location": "Shenzhen, CN",
-  "capabilities": ["CNC milling", "CNC turning"]
-}</code></pre>
+        <pre id="minimal-example"><code class="language-yaml">---
+schema: "https://factoryschema.org/v2.0/factory.schema.json"
+name: "My Factory"
+location: "Shenzhen, CN"
+vertical: machining
+capabilities:
+  - CNC milling
+  - CNC turning
+certifications:
+  - type: "ISO 9001:2015"
+website: "https://myfactory.example.com"
+email: sales@myfactory.example.com
+---
+
+# My Factory
+
+Precision CNC machining for aerospace and medical components.
+
+## Capabilities
+
+5-axis CNC milling, CNC turning, wire EDM. Aluminum, steel, titanium.
+
+## Quality
+
+100% first article inspection. ISO 9001:2015 certified.</code></pre>
       </div>
-      <p class="text-center text-muted">Only 4 fields required: <code>$schema</code>, <code>name</code>, <code>location</code>, and <code>capabilities</code>. Everything else is optional.</p>
+      <p class="text-center text-muted">Only 2 fields required: <code>name</code> and <code>location</code>. Everything else is recommended or optional.</p>
     </div>
   </section>
 
-  <!-- Why factory.json -->
+  <!-- Why factory.md -->
   <section class="section" id="why">
     <div class="container">
-      <h2>Why factory.json</h2>
+      <h2>Why factory.md</h2>
       <div class="features">
         <div class="feature-card">
           <div class="feature-icon">&#128269;</div>
@@ -129,12 +148,17 @@
         <div class="feature-card">
           <div class="feature-icon">&#9999;&#65039;</div>
           <h3>Minimal</h3>
-          <p>Start with just 4 required fields. Add certifications, equipment, lead times, quality processes, and more as you go.</p>
+          <p>Start with just 2 required fields. Add capabilities, certifications, and rich Markdown descriptions as you go.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">&#9989;</div>
           <h3>Machine-Readable</h3>
-          <p>Validated against <a href="https://json-schema.org/draft/2020-12/json-schema-core" target="_blank" rel="noopener">JSON Schema Draft 2020-12</a>. Structured data that software can parse, compare, and act on.</p>
+          <p>YAML frontmatter validated against <a href="https://json-schema.org/draft/2020-12/json-schema-core" target="_blank" rel="noopener">JSON Schema Draft 2020-12</a>. Structured data for search and filtering.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128214;</div>
+          <h3>Human-Readable</h3>
+          <p>The Markdown body is natural language — readable by factory owners, procurement teams, and LLMs without any parsing. Describe your factory in your own words.</p>
         </div>
       </div>
     </div>
@@ -144,47 +168,46 @@
   <section class="section section-alt" id="schema">
     <div class="container">
       <h2>Schema Overview</h2>
-      <p class="section-intro">The factory.json schema organizes factory data into logical sections. Required fields are marked with a badge.</p>
+      <p class="section-intro">factory.md has two layers: structured YAML frontmatter for discovery and indexing, and a free-form Markdown body for rich descriptions.</p>
       <div class="schema-grid">
 
         <div class="schema-card">
           <div class="schema-card-header" data-collapsible>
-            <h3>Root Fields <span class="badge badge-sm badge-required">required</span></h3>
+            <h3>Frontmatter Fields</h3>
             <span class="chevron"></span>
           </div>
           <div class="schema-card-body">
             <ul>
-              <li><code>$schema</code> <span class="badge badge-sm badge-required">req</span> — Schema URI</li>
               <li><code>name</code> <span class="badge badge-sm badge-required">req</span> — Factory trade name</li>
               <li><code>location</code> <span class="badge badge-sm badge-required">req</span> — String or structured object</li>
-              <li><code>capabilities</code> <span class="badge badge-sm badge-required">req</span> — Processes, materials, equipment</li>
-              <li><code>version</code> — Schema version (<code>"1.0"</code>, <code>"1.1"</code>, or <code>"1.2"</code>)</li>
-              <li><code>legal_name</code> — Registered legal entity name</li>
-              <li><code>description</code> — Free-text description</li>
-              <li><code>vertical</code> — Industry vertical</li>
-              <li><code>founded_year</code> — Year established</li>
-              <li><code>employees</code> — Employee count range</li>
-              <li><code>languages</code> — ISO 639-1 language codes</li>
+              <li><code>schema</code> — Schema URI for validation</li>
+              <li><code>vertical</code> — Industry vertical (e.g. "machining", "pcb")</li>
+              <li><code>capabilities</code> — Array of process strings</li>
+              <li><code>certifications</code> — Array of certification objects</li>
               <li><code>website</code> — Factory website URL</li>
-              <li><code>industries_served</code> — Markets and segments</li>
+              <li><code>email</code> — Contact email address</li>
             </ul>
+            <p class="schema-note">Only <code>name</code> and <code>location</code> are required. All other frontmatter fields are recommended.</p>
           </div>
         </div>
 
         <div class="schema-card">
           <div class="schema-card-header" data-collapsible>
-            <h3>Capabilities <span class="badge badge-sm badge-required">required</span></h3>
+            <h3>Recommended Body Sections</h3>
             <span class="chevron"></span>
           </div>
           <div class="schema-card-body">
             <ul>
-              <li><code>processes</code> <span class="badge badge-sm badge-required">req</span> — Manufacturing processes</li>
-              <li><code>materials</code> — Workable materials</li>
-              <li><code>finishes</code> — Surface finishes / post-processing</li>
-              <li><code>secondary_services</code> — Assembly, heat treatment, etc.</li>
-              <li><code>equipment</code> — Equipment list with specs</li>
+              <li><strong>Capabilities</strong> — Processes, materials, finishes, equipment, tolerances, constraints</li>
+              <li><strong>Certifications</strong> — Additional certification detail beyond frontmatter</li>
+              <li><strong>Quality</strong> — QC process, testing, inspection equipment, documentation</li>
+              <li><strong>Engineering</strong> — File formats, DFM review, prototyping, CAD/CAM</li>
+              <li><strong>Shipping &amp; Logistics</strong> — Incoterms, methods, markets, packaging, payment</li>
+              <li><strong>Compliance</strong> — IP protection, export controls, environmental, social</li>
+              <li><strong>RFQ Requirements</strong> — Submission endpoint, required fields/files, NDA</li>
+              <li><strong>About</strong> — Legal name, industries served, founding year, business hours</li>
             </ul>
-            <p class="schema-note">Shorthand: <code>["CNC milling", "turning"]</code></p>
+            <p class="schema-note">Body sections are recommended, not enforced. Write what matters for your factory.</p>
           </div>
         </div>
 
@@ -206,178 +229,15 @@
 
         <div class="schema-card">
           <div class="schema-card-header" data-collapsible>
-            <h3>Constraints</h3>
+            <h3>Location</h3>
             <span class="chevron"></span>
           </div>
           <div class="schema-card-body">
             <ul>
-              <li><code>moq</code> — Minimum order quantity</li>
-              <li><code>lead_time</code> — Min/max days, sample days</li>
-              <li><code>capacity</code> — Production capacity</li>
-              <li><code>max_dimensions</code> — Max part dimensions</li>
-              <li><code>max_weight</code> — Max part weight</li>
-              <li><code>tolerances</code> — Standard and precision</li>
-              <li><code>min_order_value</code> — Minimum order value</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="schema-card">
-          <div class="schema-card-header" data-collapsible>
-            <h3>Quality</h3>
-            <span class="chevron"></span>
-          </div>
-          <div class="schema-card-body">
-            <ul>
-              <li><code>testing</code> — Testing methods</li>
-              <li><code>qc_process</code> — QC workflow description</li>
-              <li><code>inspection_equipment</code> — Measurement gear</li>
-              <li><code>documentation</code> — FAI, CoC, mill certs</li>
-              <li><code>defect_rate_ppm</code> — Defect rate in PPM</li>
-              <li><code>traceability</code> — Material traceability</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="schema-card">
-          <div class="schema-card-header" data-collapsible>
-            <h3>Engineering</h3>
-            <span class="chevron"></span>
-          </div>
-          <div class="schema-card-body">
-            <ul>
-              <li><code>file_formats</code> — STEP, Gerber, DXF, etc.</li>
-              <li><code>dfm_review</code> — DFM feedback offered</li>
-              <li><code>prototyping</code> — Sample runs available</li>
-              <li><code>reverse_engineering</code> — From physical sample</li>
-              <li><code>cad_cam_software</code> — In-house software</li>
-              <li><code>codesign</code> — Co-design services</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="schema-card">
-          <div class="schema-card-header" data-collapsible>
-            <h3>Shipping</h3>
-            <span class="chevron"></span>
-          </div>
-          <div class="schema-card-body">
-            <ul>
-              <li><code>incoterms</code> — EXW, FOB, CIF, DDP</li>
-              <li><code>methods</code> — Air, sea, express</li>
-              <li><code>markets_served</code> — Countries / regions</li>
-              <li><code>packaging</code> — Packaging capabilities</li>
-              <li><code>free_port</code> — Nearest free trade zone</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="schema-card">
-          <div class="schema-card-header" data-collapsible>
-            <h3>Payment</h3>
-            <span class="chevron"></span>
-          </div>
-          <div class="schema-card-body">
-            <ul>
-              <li><code>terms</code> — Net 30, deposit, etc.</li>
-              <li><code>methods</code> — T/T, L/C, PayPal</li>
-              <li><code>currencies</code> — ISO 4217 codes</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="schema-card">
-          <div class="schema-card-header" data-collapsible>
-            <h3>Compliance</h3>
-            <span class="chevron"></span>
-          </div>
-          <div class="schema-card-body">
-            <ul>
-              <li><code>ip_protection</code> — IP measures</li>
-              <li><code>export_controls</code> — ITAR, EAR</li>
-              <li><code>environmental</code> — RoHS, ISO 14001</li>
-              <li><code>social</code> — SA8000, BSCI, SMETA</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="schema-card">
-          <div class="schema-card-header" data-collapsible>
-            <h3>RFQ Requirements <span class="badge badge-sm">new in v1.2</span></h3>
-            <span class="chevron"></span>
-          </div>
-          <div class="schema-card-body">
-            <ul>
-              <li><code>endpoint</code> — RFQ submission URI</li>
-              <li><code>required_fields</code> — Info required in every RFQ</li>
-              <li><code>required_files</code> — File types that must accompany RFQ</li>
-              <li><code>accepted_types</code> — Accepted part/product types</li>
-              <li><code>min_quantity</code> — Minimum quantity to review</li>
-              <li><code>min_order_value</code> — Minimum order value to review</li>
-              <li><code>nda_required</code> — NDA required before review</li>
-              <li><code>auto_quote</code> — Instant quoting supported</li>
-              <li><code>notes</code> — Free-text submission instructions</li>
-            </ul>
-            <p class="schema-note">Shorthand: <code>"https://factory.example.com/rfq"</code></p>
-          </div>
-        </div>
-
-        <div class="schema-card">
-          <div class="schema-card-header" data-collapsible>
-            <h3>Endpoints</h3>
-            <span class="chevron"></span>
-          </div>
-          <div class="schema-card-body">
-            <ul>
-              <li><code>rfq</code> — RFQ submission URI</li>
-              <li><code>api</code> — REST API base URL</li>
-              <li><code>mcp</code> — MCP server URI</li>
-              <li><code>a2a</code> — A2A Agent Card URI</li>
-              <li><code>website</code> — Factory website</li>
-              <li><code>email</code> — Contact email</li>
-              <li><code>phone</code> — Contact phone</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="schema-card">
-          <div class="schema-card-header" data-collapsible>
-            <h3>Media</h3>
-            <span class="chevron"></span>
-          </div>
-          <div class="schema-card-body">
-            <ul>
-              <li><code>logo</code> — Logo image URL</li>
-              <li><code>cover</code> — Cover / hero image</li>
-              <li><code>gallery</code> — Gallery image URLs</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="schema-card">
-          <div class="schema-card-header" data-collapsible>
-            <h3>Business Hours</h3>
-            <span class="chevron"></span>
-          </div>
-          <div class="schema-card-body">
-            <ul>
-              <li><code>timezone</code> — IANA timezone</li>
-              <li><code>hours</code> — Operating hours</li>
-              <li><code>response_time</code> — RFQ response time</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="schema-card">
-          <div class="schema-card-header" data-collapsible>
-            <h3>Custom</h3>
-            <span class="chevron"></span>
-          </div>
-          <div class="schema-card-body">
-            <ul>
-              <li>Any key-value pairs allowed</li>
-              <li>Vertical-specific escape hatch</li>
-              <li>e.g. <code>max_layers</code> for PCB, <code>gsm_range</code> for textiles</li>
+              <li>Shorthand: <code>"Shenzhen, CN"</code></li>
+              <li>Or structured object:</li>
+              <li><code>city</code> <span class="badge badge-sm badge-required">req</span>, <code>country</code> <span class="badge badge-sm badge-required">req</span> (ISO 3166-1 alpha-2)</li>
+              <li><code>region</code>, <code>postal_code</code>, <code>timezone</code>, <code>coordinates</code></li>
             </ul>
           </div>
         </div>
@@ -400,100 +260,77 @@
 
         <div class="tab-panel active" id="tab-machine-shop">
           <div class="example-desc">
-            <strong>Precision Works Manufacturing Co.</strong> — Aerospace-grade CNC machining in Shenzhen, China. 5-axis milling, wire EDM, AS9100D certified. Full example with all schema sections.
+            <strong>Precision Works Manufacturing Co.</strong> — Aerospace-grade CNC machining in Shenzhen, China. 5-axis milling, wire EDM, AS9100D certified.
           </div>
           <div class="code-block">
             <div class="code-header">
-              <span>factory-machine-shop.json</span>
+              <span>factory-machine-shop.md</span>
               <button class="copy-btn" data-target="example-machine-shop" aria-label="Copy to clipboard">Copy</button>
             </div>
-            <pre id="example-machine-shop"><code class="language-json">{
-  "$schema": "https://factoryschema.org/factory.schema.json",
-  "version": "1.2",
-  "name": "Precision Works Manufacturing Co.",
-  "legal_name": "Precision Works Manufacturing (Shenzhen) Co., Ltd.",
-  "description": "High-precision CNC machining facility specializing in aerospace and medical-grade components.",
-  "vertical": "machining",
-  "location": {
-    "city": "Shenzhen",
-    "region": "Guangdong",
-    "country": "CN",
-    "postal_code": "518000",
-    "timezone": "Asia/Shanghai",
-    "coordinates": { "lat": 22.5431, "lng": 114.0579 }
-  },
-  "founded_year": 2008,
-  "employees": { "min": 120, "max": 150 },
-  "languages": ["zh", "en"],
-  "website": "https://precisionworks.example.com",
-  "industries_served": [
-    "aerospace", "medical devices", "defense",
-    "semiconductor equipment", "robotics"
-  ],
-  "capabilities": {
-    "processes": [
-      "5-axis CNC milling", "CNC turning", "wire EDM",
-      "sinker EDM", "surface grinding",
-      "cylindrical grinding", "jig boring"
-    ],
-    "materials": [
-      "aluminum 6061-T6", "aluminum 7075-T6",
-      "titanium Ti-6Al-4V", "stainless steel 304",
-      "stainless steel 316L", "Inconel 718", "PEEK"
-    ],
-    "finishes": [
-      "anodizing Type II (color)", "anodizing Type III (hard coat)",
-      "passivation (citric &amp; nitric)", "electropolishing",
-      "bead blasting", "powder coating"
-    ],
-    "equipment": [
-      {
-        "name": "DMG Mori DMU 50",
-        "type": "5-axis CNC mill",
-        "count": 4,
-        "specs": { "travel_x_mm": 500, "spindle_rpm": 20000 }
-      },
-      {
-        "name": "Mazak QTN-200",
-        "type": "CNC lathe",
-        "count": 6
-      }
-    ]
-  },
-  "certifications": [
-    { "type": "ISO 9001:2015", "body": "TÜV SÜD", "expires": "2026-06-14" },
-    { "type": "AS9100D", "body": "BSI", "expires": "2026-08-31" },
-    { "type": "ITAR Registered", "body": "U.S. DDTC" }
-  ],
-  "constraints": {
-    "moq": { "min": 1, "max": 10000, "unit": "pieces" },
-    "lead_time": {
-      "min_days": 10, "max_days": 35,
-      "sample_days": 5, "expedite_available": true
-    },
-    "tolerances": {
-      "standard": "±0.025 mm (ISO 2768-m)",
-      "precision": "±0.002 mm"
-    }
-  },
-  "quality": {
-    "testing": ["CMM inspection", "first article inspection (FAI / AS9102)"],
-    "defect_rate_ppm": 800
-  },
-  "rfq": {
-    "required_fields": ["quantity", "material", "delivery_date"],
-    "required_files": ["STEP", "PDF drawing"],
-    "accepted_types": ["machined parts", "prototypes", "production runs"],
-    "nda_required": true,
-    "auto_quote": false
-  },
-  "endpoints": {
-    "rfq": "https://precisionworks.factoryschema.org/rfq",
-    "mcp": "https://precisionworks.factoryschema.org/.well-known/mcp",
-    "a2a": "https://precisionworks.example.com/.well-known/agent-card.json",
-    "email": "sales@precisionworks.example.com"
-  }
-}</code></pre>
+            <pre id="example-machine-shop"><code class="language-yaml">---
+schema: "https://factoryschema.org/v2.0/factory.schema.json"
+name: "Precision Works Manufacturing Co."
+location:
+  city: Shenzhen
+  region: Guangdong
+  country: CN
+  timezone: Asia/Shanghai
+  coordinates: { lat: 22.5431, lng: 114.0579 }
+vertical: machining
+capabilities:
+  - 5-axis CNC milling
+  - CNC turning
+  - wire EDM
+  - sinker EDM
+  - surface grinding
+  - cylindrical grinding
+  - jig boring
+certifications:
+  - type: "ISO 9001:2015"
+    body: "TUV SUD"
+    expires: "2026-06-14"
+  - type: AS9100D
+    body: BSI
+    expires: "2026-08-31"
+  - type: ITAR Registered
+    body: U.S. DDTC
+website: "https://precisionworks.example.com"
+email: sales@precisionworks.example.com
+---
+
+# Precision Works Manufacturing Co.
+
+High-precision CNC machining facility specializing in
+aerospace and medical-grade components. Founded 2008.
+120-150 employees. Languages: Chinese, English.
+
+## Capabilities
+
+### Materials
+Aluminum 6061-T6, aluminum 7075-T6, titanium Ti-6Al-4V,
+stainless steel 304/316L/17-4 PH, Inconel 718, PEEK...
+
+### Equipment
+| Equipment | Type | Count | Key Specs |
+|-----------|------|-------|-----------|
+| DMG Mori DMU 50 | 5-axis CNC mill | 4 | 500x450x400mm, 20k RPM |
+| Mazak QTN-200 | CNC lathe | 6 | 300mm dia, live tooling |
+
+### Tolerances
+- **Standard:** +/-0.025 mm (ISO 2768-m)
+- **Precision:** +/-0.002 mm
+
+### Constraints
+- **MOQ:** 1-10,000 pieces
+- **Lead time:** 10-35 days (5 days samples, expedite available)
+
+## Quality
+100% first article inspection, SPC on production runs.
+Defect rate: 800 PPM.
+
+## Compliance
+**IP protection:** NDA required. Isolated production cells.
+**Export controls:** ITAR, EAR</code></pre>
           </div>
         </div>
 
@@ -503,77 +340,65 @@
           </div>
           <div class="code-block">
             <div class="code-header">
-              <span>factory-pcb-fab.json</span>
+              <span>factory-pcb-fab.md</span>
               <button class="copy-btn" data-target="example-pcb-fab" aria-label="Copy to clipboard">Copy</button>
             </div>
-            <pre id="example-pcb-fab"><code class="language-json">{
-  "$schema": "https://factoryschema.org/factory.schema.json",
-  "version": "1.1",
-  "name": "TaiPCB Technology Co., Ltd.",
-  "description": "Advanced multilayer and HDI PCB fabrication for automotive, telecom, and industrial applications.",
-  "vertical": "pcb",
-  "location": {
-    "city": "Taoyuan",
-    "country": "TW",
-    "timezone": "Asia/Taipei"
-  },
-  "founded_year": 2003,
-  "employees": { "min": 300, "max": 350 },
-  "languages": ["zh", "en", "ja"],
-  "capabilities": {
-    "processes": [
-      "multilayer PCB fabrication",
-      "HDI (High Density Interconnect)",
-      "flex-rigid PCB", "impedance control",
-      "blind/buried vias", "heavy copper (up to 6 oz)"
-    ],
-    "materials": [
-      "FR-4 (Tg 170°C)", "FR-4 high-Tg (Tg 180°C)",
-      "Rogers RO4350B", "polyimide", "aluminum-backed"
-    ],
-    "finishes": [
-      "ENIG", "HASL (lead-free)", "OSP",
-      "immersion silver", "hard gold"
-    ]
-  },
-  "certifications": [
-    { "type": "ISO 9001:2015", "body": "SGS" },
-    { "type": "IATF 16949:2016", "body": "TÜV Rheinland" },
-    { "type": "UL Listed", "body": "UL", "id": "E123456" },
-    { "type": "ISO 14001:2015", "body": "SGS" }
-  ],
-  "constraints": {
-    "moq": { "min": 5, "max": 50000, "unit": "panels" },
-    "lead_time": {
-      "min_days": 5, "max_days": 25,
-      "sample_days": 3, "expedite_available": true
-    },
-    "tolerances": {
-      "standard": "±0.1 mm (outline)",
-      "min_feature_size": "2.5 mil trace/space (63 µm)"
-    }
-  },
-  "quality": {
-    "testing": [
-      "automated optical inspection (AOI)",
-      "electrical testing (flying probe &amp; fixture)",
-      "impedance testing (CITS)"
-    ],
-    "defect_rate_ppm": 500
-  },
-  "endpoints": {
-    "rfq": "https://taipcb.factoryschema.org/rfq",
-    "mcp": "https://taipcb.factoryschema.org/.well-known/mcp",
-    "a2a": "https://taipcb.example.com/.well-known/agent-card.json",
-    "email": "rfq@taipcb.example.com"
-  },
-  "custom": {
-    "max_layers": 32,
-    "min_trace_mil": 2.5,
-    "min_via_diameter_mm": 0.1,
-    "max_copper_weight_oz": 6
-  }
-}</code></pre>
+            <pre id="example-pcb-fab"><code class="language-yaml">---
+schema: "https://factoryschema.org/v2.0/factory.schema.json"
+name: "TaiPCB Technology Co., Ltd."
+location:
+  city: Taoyuan
+  country: TW
+  timezone: Asia/Taipei
+vertical: pcb
+capabilities:
+  - multilayer PCB fabrication
+  - HDI (High Density Interconnect)
+  - flex-rigid PCB
+  - impedance control
+  - blind/buried vias
+  - heavy copper (up to 6 oz)
+certifications:
+  - type: "ISO 9001:2015"
+    body: SGS
+  - type: "IATF 16949:2016"
+    body: "TUV Rheinland"
+  - type: UL Listed
+    body: UL
+    id: E123456
+  - type: "ISO 14001:2015"
+    body: SGS
+website: "https://taipcb.example.com"
+email: rfq@taipcb.example.com
+---
+
+# TaiPCB Technology Co., Ltd.
+
+Advanced multilayer and HDI PCB fabrication for automotive,
+telecom, and industrial applications. Founded 2003.
+300-350 employees. Languages: Chinese, English, Japanese.
+
+## Capabilities
+
+### PCB Specifications
+- **Max layers:** 32
+- **Min trace/space:** 2.5 mil (63 um)
+- **Min via diameter:** 0.1 mm
+- **Max copper weight:** 6 oz
+- **Board thickness:** 0.4-6.0 mm
+
+### Materials
+FR-4 (Tg 170C), FR-4 high-Tg, Rogers RO4350B,
+polyimide, aluminum-backed, Isola 370HR.
+
+### Constraints
+- **MOQ:** 5-50,000 panels
+- **Lead time:** 5-25 days (3 days samples)
+- **Capacity:** 15,000 panels/month
+
+## Quality
+AOI after each imaging step, 100% electrical test.
+Defect rate: 500 PPM.</code></pre>
           </div>
         </div>
 
@@ -583,76 +408,73 @@
           </div>
           <div class="code-block">
             <div class="code-header">
-              <span>factory-textile.json</span>
+              <span>factory-textile.md</span>
               <button class="copy-btn" data-target="example-textile" aria-label="Copy to clipboard">Copy</button>
             </div>
-            <pre id="example-textile"><code class="language-json">{
-  "$schema": "https://factoryschema.org/factory.schema.json",
-  "version": "1.1",
-  "name": "Sunrise Textiles Pvt. Ltd.",
-  "description": "Vertically integrated knit garment manufacturer specializing in organic cotton basics and activewear.",
-  "vertical": "textiles",
-  "location": {
-    "city": "Tirupur",
-    "region": "Tamil Nadu",
-    "country": "IN",
-    "timezone": "Asia/Kolkata"
-  },
-  "founded_year": 1997,
-  "employees": { "min": 500, "max": 600 },
-  "languages": ["ta", "en", "hi"],
-  "capabilities": {
-    "processes": [
-      "knitting", "dyeing", "cut-and-sew",
-      "embroidery", "screen printing",
-      "sublimation printing", "garment washing"
-    ],
-    "materials": [
-      "organic cotton", "BCI cotton",
-      "cotton-polyester blends", "recycled polyester",
-      "Tencel / lyocell", "bamboo viscose"
-    ],
-    "finishes": [
-      "enzyme wash", "silicone softener",
-      "anti-pilling", "moisture wicking"
-    ]
-  },
-  "certifications": [
-    { "type": "GOTS", "body": "Control Union", "id": "CU-1012345" },
-    { "type": "OEKO-TEX Standard 100", "body": "Hohenstein" },
-    { "type": "GRS (Global Recycled Standard)", "body": "Control Union" },
-    { "type": "ISO 9001:2015", "body": "Bureau Veritas" }
-  ],
-  "constraints": {
-    "moq": { "min": 500, "max": 50000, "unit": "pieces" },
-    "lead_time": {
-      "min_days": 21, "max_days": 45,
-      "sample_days": 10, "expedite_available": true
-    },
-    "capacity": { "value": 50000, "unit": "pieces", "period": "month" }
-  },
-  "quality": {
-    "testing": [
-      "fabric GSM testing",
-      "color fastness (wash, rub, light)",
-      "shrinkage testing (AATCC 135)",
-      "pilling resistance (ISO 12945)"
-    ],
-    "defect_rate_ppm": 2500
-  },
-  "endpoints": {
-    "rfq": "https://sunrise.factoryschema.org/rfq",
-    "mcp": "https://sunrise.factoryschema.org/.well-known/mcp",
-    "a2a": "https://sunrisetextiles.example.com/.well-known/agent-card.json",
-    "email": "orders@sunrisetextiles.example.com"
-  },
-  "custom": {
-    "fabric_types": ["jersey", "interlock", "rib", "pique", "french terry"],
-    "gsm_range": { "min": 120, "max": 400 },
-    "size_range": "XS-5XL",
-    "color_matching": "Pantone TPX/TCX"
-  }
-}</code></pre>
+            <pre id="example-textile"><code class="language-yaml">---
+schema: "https://factoryschema.org/v2.0/factory.schema.json"
+name: "Sunrise Textiles Pvt. Ltd."
+location:
+  city: Tirupur
+  region: Tamil Nadu
+  country: IN
+  timezone: Asia/Kolkata
+vertical: textiles
+capabilities:
+  - knitting
+  - dyeing
+  - cut-and-sew
+  - embroidery
+  - screen printing
+  - sublimation printing
+  - garment washing
+certifications:
+  - type: GOTS
+    body: Control Union
+    id: CU-1012345
+  - type: OEKO-TEX Standard 100
+    body: Hohenstein
+  - type: GRS (Global Recycled Standard)
+    body: Control Union
+  - type: "ISO 9001:2015"
+    body: Bureau Veritas
+website: "https://sunrisetextiles.example.com"
+email: orders@sunrisetextiles.example.com
+---
+
+# Sunrise Textiles Pvt. Ltd.
+
+Vertically integrated knit garment manufacturer specializing
+in organic cotton basics and activewear. Founded 1997.
+500-600 employees. Languages: Tamil, English, Hindi.
+
+## Capabilities
+
+### Fabric Types
+Jersey, interlock, rib, pique, french terry, fleece.
+GSM range: 120-400.
+
+### Garment Types
+T-shirts, polo shirts, hoodies, joggers, leggings, tank tops.
+Size range: XS-5XL. Color matching: Pantone TPX/TCX.
+
+### Materials
+Organic cotton, BCI cotton, cotton-polyester blends,
+recycled polyester, Tencel/lyocell, bamboo viscose.
+
+### Constraints
+- **MOQ:** 500-50,000 pieces
+- **Lead time:** 21-45 days (10 days samples)
+- **Capacity:** 50,000 pieces/month
+
+## Quality
+AQL 2.5 final inspection, inline QC at cutting and sewing.
+Defect rate: 2,500 PPM.
+
+## Compliance
+**Environmental:** GOTS, GRS, zero liquid discharge dyeing,
+solar-powered knitting unit.
+**Social:** BSCI, SEDEX/SMETA 4-pillar.</code></pre>
           </div>
         </div>
       </div>
@@ -667,15 +489,15 @@
 
       <div class="spec-block">
         <h3>Discovery Mechanism</h3>
-        <p>A factory.json file SHOULD be hosted at the well-known URI per <a href="https://www.rfc-editor.org/rfc/rfc8615" target="_blank" rel="noopener">RFC 8615</a>:</p>
+        <p>A factory.md file SHOULD be hosted at the well-known URI per <a href="https://www.rfc-editor.org/rfc/rfc8615" target="_blank" rel="noopener">RFC 8615</a>:</p>
         <div class="code-block">
-          <pre><code class="language-json">https://{domain}/.well-known/factory.json</code></pre>
+          <pre><code>https://{domain}/.well-known/factory.md</code></pre>
         </div>
         <ul>
           <li>MUST be served over HTTPS</li>
-          <li>MUST use <code>Content-Type: application/json</code></li>
+          <li>MUST use <code>Content-Type: text/markdown; charset=utf-8</code></li>
           <li>SHOULD set <code>Cache-Control: max-age=86400</code> (24 hours)</li>
-          <li>MAY also be hosted at alternative paths (e.g. <code>/factory.json</code>)</li>
+          <li>MAY also be hosted at alternative paths (e.g. <code>/factory.md</code>)</li>
         </ul>
       </div>
 
@@ -687,22 +509,35 @@
               <tr><th>Field</th><th>Type</th><th>Description</th></tr>
             </thead>
             <tbody>
-              <tr><td><code>$schema</code></td><td><code>string</code></td><td>MUST be <code>"https://factoryschema.org/factory.schema.json"</code></td></tr>
               <tr><td><code>name</code></td><td><code>string</code></td><td>Trade name of the factory (non-empty)</td></tr>
               <tr><td><code>location</code></td><td><code>string</code> | <code>object</code></td><td>Factory location — string shorthand or structured object with city, country, coordinates</td></tr>
-              <tr><td><code>capabilities</code></td><td><code>string[]</code> | <code>object</code></td><td>What the factory can produce — array shorthand or full object with processes, materials, equipment</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Recommended Fields</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>schema</code></td><td><code>string</code></td><td>Schema URI for validation</td></tr>
+              <tr><td><code>vertical</code></td><td><code>string</code></td><td>Industry vertical (e.g. "machining", "pcb", "textiles")</td></tr>
+              <tr><td><code>capabilities</code></td><td><code>string[]</code></td><td>Manufacturing processes offered (free-form strings)</td></tr>
+              <tr><td><code>certifications</code></td><td><code>object[]</code></td><td>Industry certifications (at minimum <code>type</code> required per object)</td></tr>
+              <tr><td><code>website</code></td><td><code>string</code></td><td>Factory website URL</td></tr>
+              <tr><td><code>email</code></td><td><code>string</code></td><td>Contact email address</td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
       <div class="spec-block">
-        <h3>Versioning Policy</h3>
-        <p>factory.json follows <a href="https://semver.org/" target="_blank" rel="noopener">Semantic Versioning 2.0.0</a>:</p>
+        <h3>Two-Layer Architecture</h3>
+        <p>factory.md separates <strong>structured data</strong> (YAML frontmatter) from <strong>rich descriptions</strong> (Markdown body):</p>
         <ul>
-          <li><strong>Patch</strong> (e.g. 1.0.1) — Clarifications, typo fixes. No schema changes.</li>
-          <li><strong>Minor</strong> (e.g. 1.1.0) — New optional fields. Existing documents remain valid.</li>
-          <li><strong>Major</strong> (e.g. 2.0.0) — Breaking changes. Previously valid documents MAY become invalid.</li>
+          <li><strong>Frontmatter</strong> — validated against JSON Schema. Used for programmatic search, filtering, and indexing. Intentionally minimal.</li>
+          <li><strong>Body</strong> — free-form Markdown. Readable by humans and LLMs. Contains detailed capabilities, quality processes, equipment tables, compliance narratives, and anything else the factory wants to share.</li>
         </ul>
       </div>
 
@@ -712,8 +547,8 @@
           <li>The file is intended to be <strong>public</strong>. Do NOT include internal pricing, employee PII, API keys, or confidential customer lists.</li>
           <li>MUST be served over <strong>HTTPS</strong> to prevent tampering.</li>
           <li>Consumers SHOULD NOT treat data as verified — claims are <strong>self-reported</strong>.</li>
+          <li>Publishers SHOULD <strong>quote YAML values</strong> that could be misinterpreted (e.g. country codes <code>NO</code>, <code>AT</code>).</li>
           <li>Publishers MAY implement <strong>rate limiting</strong> to prevent excessive crawling.</li>
-          <li>Publishers SHOULD set <strong>CORS headers</strong> if fetched by browser-based apps.</li>
         </ul>
       </div>
 
@@ -725,11 +560,11 @@
   <section class="section" id="a2a">
     <div class="container">
       <h2>A2A Interoperability</h2>
-      <p class="section-intro">factory.json integrates with the <a href="https://a2a-protocol.org" target="_blank" rel="noopener">A2A (Agent-to-Agent) protocol</a> as a protocol extension — making factories discoverable through the A2A ecosystem. Optional since v1.1, refactored as extension in v1.3.</p>
+      <p class="section-intro">factory.md integrates with the <a href="https://a2a-protocol.org" target="_blank" rel="noopener">A2A (Agent-to-Agent) protocol</a> as a protocol extension — making factories discoverable through the A2A ecosystem.</p>
 
       <div class="spec-block">
         <h3>How It Works</h3>
-        <p>The A2A Agent Card is a <strong>lean interaction layer</strong> — just enough for agents to discover and talk to your factory. The factory.json file remains the <strong>rich data layer</strong> with full manufacturing detail. The Agent Card links to factory.json via a URI reference.</p>
+        <p>The A2A Agent Card is a <strong>lean interaction layer</strong> — just enough for agents to discover and talk to your factory. The factory.md file remains the <strong>rich data layer</strong> with full manufacturing detail. The Agent Card links to factory.md via a URI reference.</p>
 
         <div class="code-block">
           <div class="code-header">
@@ -750,7 +585,7 @@
     "pushNotifications": false,
     "extensions": [{
       "uri": "https://factoryschema.org/a2a-extension/v1",
-      "description": "Manufacturing facility profile (factory.json)",
+      "description": "Manufacturing facility profile (factory.md)",
       "required": false
     }]
   },
@@ -771,23 +606,9 @@
     }
   ],
   "metadata": {
-    "factoryProfile": "https://precisionworks.example.com/.well-known/factory.json",
+    "factoryProfile": "https://precisionworks.example.com/.well-known/factory.md",
     "vertical": "machining",
     "location": "Shenzhen, CN"
-  }
-}</code></pre>
-        </div>
-
-        <div class="code-block">
-          <div class="code-header">
-            <span>factory.json — endpoints linking back to Agent Card</span>
-            <button class="copy-btn" data-target="a2a-endpoints" aria-label="Copy to clipboard">Copy</button>
-          </div>
-          <pre id="a2a-endpoints"><code class="language-json">{
-  "endpoints": {
-    "rfq": "https://factory.example.com/rfq",
-    "a2a": "https://factory.example.com/.well-known/agent-card.json",
-    "email": "sales@factory.example.com"
   }
 }</code></pre>
         </div>
@@ -798,7 +619,7 @@
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>Agent Card (lean)</th><th>factory.json (rich)</th></tr>
+              <tr><th>Agent Card (lean)</th><th>factory.md (rich)</th></tr>
             </thead>
             <tbody>
               <tr><td>Name, description, provider</td><td>Full legal name, founding year, employees</td></tr>
@@ -813,21 +634,21 @@
 
       <div class="spec-block">
         <h3>Semantic Mapping</h3>
-        <p>When a consumer fetches factory.json via the <code>metadata.factoryProfile</code> URI, these fields map to A2A concepts:</p>
+        <p>When a consumer fetches factory.md via the <code>metadata.factoryProfile</code> URI, these fields map to A2A concepts:</p>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>factory.json Field</th><th>A2A Concept</th><th>Mapping</th></tr>
+              <tr><th>factory.md Content</th><th>A2A Concept</th><th>Mapping</th></tr>
             </thead>
             <tbody>
-              <tr><td><code>name</code>, <code>description</code>, <code>location</code></td><td>Agent Card identity</td><td>Direct mapping to agent identity fields</td></tr>
-              <tr><td><code>capabilities.processes</code></td><td><code>AgentSkill</code></td><td>Each process MAY become a skill, or summarized into one</td></tr>
-              <tr><td><code>engineering.file_formats</code></td><td>Input artifact MIME types</td><td>STEP, PDF, DXF as accepted input formats</td></tr>
-              <tr><td><code>rfq.required_fields</code></td><td>Skill input requirements</td><td>Required fields define RFQ skill input schema</td></tr>
-              <tr><td><code>rfq.required_files</code></td><td>Required input artifacts</td><td>Required file types as input artifact MIME types</td></tr>
-              <tr><td><code>rfq.nda_required</code></td><td>Pre-authentication step</td><td>NDA signing step before accepting file artifacts</td></tr>
-              <tr><td><code>certifications</code></td><td>Trust signals</td><td>Used to evaluate agent trustworthiness</td></tr>
-              <tr><td><code>constraints</code></td><td>Feasibility filtering</td><td>Check MOQ, dimensions, tolerances before submitting</td></tr>
+              <tr><td>Frontmatter: <code>name</code>, <code>location</code></td><td>Agent Card identity</td><td>Direct mapping to agent identity fields</td></tr>
+              <tr><td>Frontmatter: <code>capabilities</code></td><td><code>AgentSkill</code></td><td>Each process MAY become a skill, or summarized into one</td></tr>
+              <tr><td>Body: Engineering file formats</td><td>Input artifact MIME types</td><td>STEP, PDF, DXF as accepted input formats</td></tr>
+              <tr><td>Body: RFQ required fields</td><td>Skill input requirements</td><td>Required fields define RFQ skill input schema</td></tr>
+              <tr><td>Body: RFQ required files</td><td>Required input artifacts</td><td>Required file types as input artifact MIME types</td></tr>
+              <tr><td>Body: NDA requirements</td><td>Pre-authentication step</td><td>NDA signing step before accepting file artifacts</td></tr>
+              <tr><td>Frontmatter: <code>certifications</code></td><td>Trust signals</td><td>Used to evaluate agent trustworthiness</td></tr>
+              <tr><td>Body: Constraints</td><td>Feasibility filtering</td><td>Check MOQ, dimensions, tolerances before submitting</td></tr>
             </tbody>
           </table>
         </div>
@@ -859,17 +680,17 @@
   <!-- Adopt -->
   <section class="section section-alt" id="adopt">
     <div class="container">
-      <h2>Adopt factory.json</h2>
-      <p class="section-intro">Serve your factory.json at the well-known URI so AI agents and platforms can discover it.</p>
+      <h2>Adopt factory.md</h2>
+      <p class="section-intro">Serve your factory.md at the well-known URI so AI agents and platforms can discover it.</p>
 
       <div class="adopt-steps">
         <div class="adopt-step">
           <h3>1. Create your file</h3>
-          <p>Start with the minimal example and add fields from the schema. Validate against the <a href="https://github.com/factory-json/factory-json/blob/main/schema/v1.2/factory.schema.json" target="_blank" rel="noopener">JSON Schema</a>.</p>
+          <p>Start with the minimal example and add frontmatter fields and Markdown body sections. Validate frontmatter against the <a href="https://github.com/factory-json/factory-json/blob/main/schema/v2.0/factory.schema.json" target="_blank" rel="noopener">JSON Schema</a>.</p>
         </div>
         <div class="adopt-step">
           <h3>2. Configure your web server</h3>
-          <p>Set up a route to serve the file at <code>/.well-known/factory.json</code>:</p>
+          <p>Set up a route to serve the file at <code>/.well-known/factory.md</code>:</p>
         </div>
       </div>
 
@@ -879,9 +700,9 @@
             <span>Nginx</span>
             <button class="copy-btn" data-target="config-nginx" aria-label="Copy to clipboard">Copy</button>
           </div>
-          <pre id="config-nginx"><code>location = /.well-known/factory.json {
-    alias /var/www/factory.json;
-    default_type application/json;
+          <pre id="config-nginx"><code>location = /.well-known/factory.md {
+    alias /var/www/factory.md;
+    default_type "text/markdown; charset=utf-8";
     add_header Cache-Control "public, max-age=86400";
     add_header Access-Control-Allow-Origin "*";
 }</code></pre>
@@ -892,10 +713,10 @@
             <button class="copy-btn" data-target="config-apache" aria-label="Copy to clipboard">Copy</button>
           </div>
           <pre id="config-apache"><code>RewriteEngine On
-RewriteRule ^\.well-known/factory\.json$ /factory.json [L]
+RewriteRule ^\.well-known/factory\.md$ /factory.md [L]
 
-&lt;Files "factory.json"&gt;
-    ForceType application/json
+&lt;Files "factory.md"&gt;
+    ForceType "text/markdown; charset=utf-8"
     Header set Cache-Control "public, max-age=86400"
     Header set Access-Control-Allow-Origin "*"
 &lt;/Files&gt;</code></pre>
@@ -905,11 +726,11 @@ RewriteRule ^\.well-known/factory\.json$ /factory.json [L]
             <span>Caddy</span>
             <button class="copy-btn" data-target="config-caddy" aria-label="Copy to clipboard">Copy</button>
           </div>
-          <pre id="config-caddy"><code>handle /.well-known/factory.json {
+          <pre id="config-caddy"><code>handle /.well-known/factory.md {
     root * /var/www
-    rewrite * /factory.json
+    rewrite * /factory.md
     file_server
-    header Content-Type application/json
+    header Content-Type "text/markdown; charset=utf-8"
     header Cache-Control "public, max-age=86400"
     header Access-Control-Allow-Origin "*"
 }</code></pre>
@@ -919,7 +740,7 @@ RewriteRule ^\.well-known/factory\.json$ /factory.json [L]
       <div class="adopt-step">
         <h3>3. Verify</h3>
         <div class="code-block">
-          <pre><code>curl -s https://yourdomain.com/.well-known/factory.json | jq .</code></pre>
+          <pre><code>curl -s https://yourdomain.com/.well-known/factory.md | head -20</code></pre>
         </div>
       </div>
 
@@ -927,22 +748,12 @@ RewriteRule ^\.well-known/factory\.json$ /factory.json [L]
         <h3>4. Enable A2A Discovery (Optional)</h3>
         <p>To make your factory discoverable by AI agents via the A2A protocol:</p>
         <ol>
-          <li>Create a lean <code>agent-card.json</code> with your agent's skills and a <code>metadata.factoryProfile</code> URI pointing to your factory.json</li>
+          <li>Create a lean <code>agent-card.json</code> with your agent's skills and a <code>metadata.factoryProfile</code> URI pointing to your factory.md</li>
           <li>Declare the <code>factoryschema.org/a2a-extension/v1</code> extension in the Agent Card's capabilities</li>
           <li>Host it at <code>/.well-known/agent-card.json</code> on your domain</li>
-          <li>Add the <code>"a2a"</code> endpoint to your <code>factory.json</code>:</li>
+          <li>Reference the A2A endpoint in your factory.md's RFQ Requirements section</li>
         </ol>
-        <div class="code-block">
-          <div class="code-header">
-            <span>Add to factory.json endpoints</span>
-            <button class="copy-btn" data-target="adopt-a2a" aria-label="Copy to clipboard">Copy</button>
-          </div>
-          <pre id="adopt-a2a"><code class="language-json">"endpoints": {
-  "a2a": "https://yourdomain.com/.well-known/agent-card.json",
-  ...
-}</code></pre>
-        </div>
-        <p>The Agent Card stays lean — just name, skills, and a link to your factory.json. All the rich manufacturing data stays in one place. See the <a href="#a2a">A2A Interoperability</a> section for the full example.</p>
+        <p>The Agent Card stays lean — just name, skills, and a link to your factory.md. All the rich manufacturing data stays in one place. See the <a href="#a2a">A2A Interoperability</a> section for the full example.</p>
       </div>
     </div>
   </section>
@@ -951,16 +762,16 @@ RewriteRule ^\.well-known/factory\.json$ /factory.json [L]
   <section class="section section-alt" id="community">
     <div class="container">
       <h2>Community</h2>
-      <p class="section-intro">factory.json is an open standard. Contributions are welcome.</p>
+      <p class="section-intro">factory.md is an open standard. Contributions are welcome.</p>
 
       <div class="community-grid">
         <div class="community-card">
-          <h3>Propose a New Field</h3>
-          <p>Open a GitHub Issue with the field name, type, motivation, and example. Proposals are discussed for at least 14 days before a decision.</p>
+          <h3>Propose a Change</h3>
+          <p>Open a GitHub Issue with the proposed field, section, or change — including motivation and example. Proposals are discussed for at least 14 days before a decision.</p>
         </div>
         <div class="community-card">
           <h3>Report a Bug</h3>
-          <p>Found a schema validation issue or spec error? Open an issue with a reproduction JSON snippet.</p>
+          <p>Found a schema validation issue or spec error? Open an issue with a reproduction example.</p>
         </div>
         <div class="community-card">
           <h3>Submit a PR</h3>
@@ -981,7 +792,7 @@ RewriteRule ^\.well-known/factory\.json$ /factory.json [L]
     <div class="container">
       <div class="footer-inner">
         <div class="footer-left">
-          <span class="footer-logo">factory.json</span>
+          <span class="footer-logo">factory.md</span>
           <span class="footer-sep">&mdash;</span>
           <span>Created by <a href="https://factoryschema.org" target="_blank" rel="noopener">Factory Schema</a></span>
         </div>
